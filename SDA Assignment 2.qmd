@@ -8,7 +8,7 @@ format: html
  Name | Email | Personal number |
 |:---------|-----------|---------|
 | Caroline Birkehammar | caroline.birkehammar@gmail.com | 19971118-5562 |
-| Value | Value | Value |
+| Steven Hiram Rubio Vasquez | stevenrv97@gmail.com | 19970222-8793 |
 | Value | Value | Value |
 | Value | Value | Value |
 
