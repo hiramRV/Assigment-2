@@ -1,0 +1,265 @@
+---
+title: "Home Assignment SDA: Part 2"
+author: "Caroline Birkehammar"
+format: html
+---
+
+## Authors
+ Name | Email | Personal number |
+|:---------|-----------|---------|
+| Caroline Birkehammar | caroline.birkehammar@gmail.com | 19971118-5562 |
+| Value | Value | Value |
+| Value | Value | Value |
+| Value | Value | Value |
+
+
+#### Load data
+```{r}
+library(readxl)
+data <- read_excel("dataset01.xlsx")
+test <- read_excel("~/test.xlsx")
+
+data$STARTING_PRICE <- data$STARTING_PRICE / 1000000
+data[c("REGION", "TYPE", "BALCONY")] <- lapply(data[c("REGION", "TYPE", "BALCONY")], as.factor)
+levels(data$BALCONY) <- c("0", "1")
+```
+
+
+# Task 1
+***Using a significance level of 1%, test the hypothesis that half of the housing units in the
+region have a balcony.***
+
+#### Data and problem description
+```{r}
+n_balconies <- sum(data$BALCONY == 1) # 390
+n           <- length(data$BALCONY)   # 701
+phat        <- n_balconies / n        # About 0.55635
+p0          <- 0.5
+se0         <- sqrt(p0 * (1 - p0) / n)
+```
+
+
+We want to know how likely it is to obtain $\hat{p} = 0.55635$ if the true $p = 0.5$ at the 99% significance level. The null and alternative hypotheses are as follows:
+$$H_{0}: p = 0.5 \qquad H_{A}: p \ne 0.5$$
+The distribution of $\hat{p}$ is approximately normal with mean 0.5 and standard deviation 0.019 under the null hypothesis:
+$$ Since \quad n\hat{p}\hat{q} = 175.25 > 5, \qquad \hat{p} \sim N\left(0.5, \sqrt{\frac{0.5 \cdot 0.5}{701}}\right) = N(0.5, 0.019) $$
+
+#### Using the formula
+```{r}
+z <- (phat - p0) / se0
+p_value <- 2 * (1 - pnorm(abs(z)))
+print(p_value)
+```
+
+#### Using built-in functions
+```{r}
+test_balcony = prop.test(n_balconies, n = n, p = 0.5, alternative = "two.sided", conf.level = 0.99)
+test_balcony$p.value
+```
+
+#### Conclusion
+Since the p-value is less than 0.01, the observed proportion of balconies is very unlikely under the null hypothesis, even on the 99% significance level. Therefore, we reject the null hypothesis that $p = 0.5$.
+
+
+
+# Task 2
+***Using a significance level of 5%, test the hypothesis that the expected size of the housing
+units in the region is 75m2.***
+
+#### Data and problem description
+```{r}
+alpha   <- 0.05
+mu      <- 75
+xbar    <- mean(data$AREA)
+se      <- sqrt(sum((data$AREA - mu)^2) / (n-1)) # Population variance unknown
+se_xbar <- se / sqrt(n) # Variance of xbar
+# hist(data$AREA, breaks = 60) # Not really normally distributed...
+```
+The distribution as shown by the histogram is not clearly normally distributed. However, the sample size is greater than 30, so we approximate the distribution of $\bar{x}$ with a normal distribution by the central limit theorem.
+
+The null and alternative hypotheses are as follows:
+$$H_{0}: \mu = 0.75 \qquad H_{A}: \mu \ne 0.75$$
+
+#### Using the formula
+```{r}
+zobs    <- (xbar - mu) / se_xbar # 54.47
+p_value <- 2 * (1 - pnorm(abs(zobs)))
+print(p_value)
+```
+
+#### Using built-in functions
+```{r}
+mean_test <- t.test(data$AREA, mu = mu, alternative = "two.sided", conf.level = 0.95)
+mean_test$p.value
+```
+#### Conclusion
+The p-value is about 0.0047 (the exact value depends on if you use the formula or the built in functions in R), so we reject the null hypothesis. The interpretation is that the mean (or expected) area of the housing units is not 75 square meters.
+
+
+
+# Task 3
+***Estimate the proportion of apartments in the region through a 90% confidence interval.***
+
+#### Data and problem description
+```{r}
+phat  <- sum(data$TYPE == "Apartment") / n
+z     <- qnorm(0.95) # Two-sided, so 90% ci uses z = 0.95
+se    <- sqrt(phat*(1-phat)/n)
+```
+
+The 90% confidence interval for a proportion is as follows:
+$$ \hat{p} \pm z_{0.05} \sqrt{\frac{\hat{p}(1 - \hat{p})}{n}} $$
+
+#### Using the formula
+```{r}
+conf_int <- c((phat - z*se), phat + z*se)
+print(conf_int)
+```
+
+#### Using the built-in functions
+```{r}
+ci <- prop.test(sum(data$TYPE == "Apartment"), n, conf.level = 0.9)
+ci$conf.int
+```
+
+#### Conclusion
+
+The 90% confidence interval for the proportion of housing units that are apartments is about 0.76 to 0.82.
+
+
+
+
+
+
+
+
+
+
+# Task 4
+***Estimate the expected number of rooms of the housing units in the region through a 95% confidence interval.***
+
+#### Data and problem description
+```{r}
+xbar <- mean(data$ROOMS)  # About 3.15
+se   <- sd(data$ROOMS)    # About 1.59
+t975 <- qt(0.975, n-1)
+```
+Since the variance is unknown, the distribution of the expected number of rooms follow a t-distribution. The 95% confidence interval is defined as:
+
+$$ \bar{x} \pm t_{0.025, n-1} \frac{s_x}{\sqrt{n}} $$
+
+#### Using the formulas
+```{r}
+conf_int <- c((xbar - t975 * se / sqrt(n)), xbar + t975 * se / sqrt(n))
+print(conf_int)
+```
+
+#### Using the built-in functions
+```{r}
+ci <- t.test(data$ROOMS, conf.level = 0.95)
+ci$conf.int
+```
+
+#### Conclusion
+The confidence interval for the mean (expected) number of rooms in the region is [3.033163, 3.269262]. 
+
+
+
+# Task 5
+***Fit a linear regression that explains STARTING_PRICE in terms of some or all of the
+remaining variables (REGION, TYPE, BALCONY, ROOMS and AREA). (Tips: i. Take into
+account that the regression is fitted with predictive purposes; ii. Make use of appropriate
+numerical and graphical tools; iii. Make sure that you report the estimated regression
+in equation form; iv. Consider transformations and interactions between variables; v.
+Check the model assumptions; vi. Use appropriate criteria to decide which variables
+should be included in the model.)***
+
+#### Data exploration and transformation
+Linear regression makes certain assumptions, one of which is a linear relationship between the independent variables and the dependent variable. Before creating and comparing different multiple regression models, we must check the linearity assumption between the starting price and the numerical independent variables (rooms and area), and conduct appropriate transformations as needed.
+
+We start by checking the relationship between rooms and starting price.
+```{r}
+par(mfrow = c(2, 2))
+plot(STARTING_PRICE ~ ROOMS, data = data, main = "Without transformation")
+plot(log(STARTING_PRICE) ~ ROOMS, data = data, main = "Log of Starting Price")
+plot(STARTING_PRICE ~ log(ROOMS), data = data, main = "Log of Rooms")
+plot(log(STARTING_PRICE) ~ log(ROOMS), data = data, main = "Log of Starting Price and Rooms")
+```
+No clear improvement by transforming (INTERPRET THIS MORE PROBABLY)
+
+We follow this by checking the linearity assumption between Starting Price and Area.
+```{r}
+par(mfrow = c(2, 2))
+plot(STARTING_PRICE ~ AREA, data = data, main = "Without transformation")
+plot(log(STARTING_PRICE) ~ AREA, data = data, main = "Log of Starting Price")
+plot(STARTING_PRICE ~ log(AREA), data = data, main = "Log of Area")
+plot(log(STARTING_PRICE) ~ log(AREA), data = data, main = "Log of Starting Price and Area")
+```
+While the plot without any transformations shows a quite linear relationship between the starting price and area of housing units, it also displays more heteroskedasticity for larger housing units. Taking the log of both starting price and area renders a linear and homoskedastic plot, and could be a good option for further analysis and model creation.
+
+
+#### Fit multiple regression model
+We create two multiple regression models: one without any log transformations, and one using the log of the starting price and the area. We start by including all interactions between the covariates, and use stepwise backwards selection to remove abundant interactions and variables.
+
+Here is the model without transformations:
+```{r}
+m1 <- lm(STARTING_PRICE ~ REGION + TYPE + BALCONY + ROOMS + AREA + 
+          REGION*TYPE + REGION*BALCONY + REGION*ROOMS + REGION*AREA + 
+          TYPE*BALCONY + TYPE*ROOMS + TYPE*AREA + 
+          BALCONY*ROOMS + BALCONY*AREA + 
+          ROOMS*AREA, data = data)
+
+no_log_model <- step(m1, direction = "backward", trace = 0)
+
+summary(no_log_model)
+```
+
+And here is the model using the logs of Starting Price and Area:
+```{r}
+m2 <- lm(log(STARTING_PRICE) ~ REGION + TYPE + BALCONY + ROOMS + log(AREA) + 
+          REGION*TYPE + REGION*BALCONY + REGION*ROOMS + REGION*log(AREA) + 
+          TYPE*BALCONY + TYPE*ROOMS + TYPE*log(AREA) + 
+          BALCONY*ROOMS + BALCONY*log(AREA) + 
+          ROOMS*log(AREA), data = data)
+
+log_model <- step(m2, direction = "backward", trace = 0)
+
+summary(log_model)
+```
+
+
+
+
+
+#### Conclusion
+The adjusted R-squared is greater for the model using logs. 
+
+# Task 6
+***The dataset test.xlsx that can be found in Athena (Resources/Part 1/Assignment)
+contains information on the region, the type of housing unit, the presence of a balcony,
+the number of rooms and the area of ten housing units. Use your regression model from
+exercise 5 to predict the starting price of these housing units (Provide a point prediction,
+ˆy, and an interval prediction.)***
+
+#### Point prediction
+```{r}
+# Using model without log transformation
+test_1 <- test
+pred_1 <- predict(no_log_model, newdata = test_1)
+test_1$STARTING_PRICE <- pred_1
+head(test_1)
+
+# Using model with log transformation
+test_2 <- test
+pred_2 <- predict(log_model, newdata = test_2)
+test_2$STARTING_PRICE <- pred_2
+head(test_2)
+```
+
+#### Interval prediction
+```{r}
+
+```
+
+
+#### Conclusion
