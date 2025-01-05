@@ -26,30 +26,25 @@ data$BALCONY<-factor(data$BALCONY)
 #With a level of significance of 1%. 
 #Hypotheses: Half of the houses have a Balcony
 #Significance of 99% means
-qnorm(p=0.005, mean=0, sd=1) #+-2.5758
+z_est=abs(qnorm(p=0.01, mean=0, sd=1)) #+-2.3263
+p0=0.5
+#Another alternative
 #With R
-pe=0.5
-n=length(data$BALCONY)
-result = binom.test(x=data$BALCONY=="Yes",n=n,p=pe,alternative="two.sided",conf.level=0.99)
-result
-#Null Hypotheses discarded. The proportion is not 0.5
-
-#Calculations by hand
-p0=count(~BALCONY,data=data, success="Yes")/n   #We get the sample proportion
+ci_balcony <- prop.test(x=data$BALCONY=="Yes", n=n, conf.level = 0.99)
+ci_balcony$conf.int
+ci_balcony$p.value
+#The proportion is not 0.5
+#By hand
+p_balc=count(~BALCONY,data=data, success="Yes")/n   #We get the sample proportion
 print(paste0("Observed proportion: ",p0))
-sd = sqrt(pe*(1-pe)/n)                          #Standar deviation using hypothesis value
-sd
-z_observed = (p0-pe)/sd
-z_observed          #2.98 sd above the mean
-p_value = 2*pnorm(q=z_observed, mean = 0, sd=1,FALSE)
-p_value
-#P_value observed is less that given with 99% significance. Reject null hypotheses
-#Critical values:
-z_crit = -qnorm(p=0.005,mean=0,sd=1)
-LI = pe-z_crit*sd
-LS = pe+z_crit*sd
-print(paste0("Critical Interval from: [",LI, ", ",LS,"]."))
-#Proportion Value outside confidence interval. Rejected. 
+se = sqrt(p0*(1-p0)/n) 
+z_observed = (p_balc-p0)/se
+z_observed          #2.9837 se above the mean
+p_value = 2*(1-pnorm(q=z_observed))
+print(paste0("p-value with R of: ",ci_balcony$p.value)) 
+print(paste0("p-value by hand of: ",p_value)) 
+
+
 ### Part 2: ----
 hist(data$AREA,breaks=30)
 #Significance level of 
