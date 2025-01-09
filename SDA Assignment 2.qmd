@@ -17,7 +17,7 @@ format: html
 ```{r}
 library(readxl)
 data <- read_excel("dataset01.xlsx")
-test <- read_excel("~/test.xlsx")
+test <- read_excel("test.xlsx")
 
 data$STARTING_PRICE <- data$STARTING_PRICE / 1000000
 data[c("REGION", "TYPE", "BALCONY")] <- lapply(data[c("REGION", "TYPE", "BALCONY")], as.factor)
@@ -56,9 +56,16 @@ print(p_value)
 test_balcony = prop.test(n_balconies, n = n, p = 0.5, alternative = "two.sided", conf.level = 0.99)
 test_balcony$p.value
 ```
+#### Comparing both metods
+```{r}
+print(paste0("p-value with R of: ",test_balcony$p.value)) 
+print(paste0("p-value by hand of: ",p_value)) 
+
+```
+
 
 #### Conclusion
-Since the p-value is less than 0.01, the observed proportion of balconies is very unlikely under the null hypothesis, even on the 99% significance level. Therefore, we reject the null hypothesis that $p = 0.5$.
+Since the p-value is less than 0.01 in both cases, the observed proportion of balconies is very unlikely under the null hypothesis, even on the 99% significance level. Therefore, we reject the null hypothesis that $p = 0.5$.
 
 
 
@@ -82,9 +89,9 @@ $$H_{0}: \mu = 0.75 \qquad H_{A}: \mu \ne 0.75$$
 
 #### Using the formula
 ```{r}
-zobs    <- (xbar - mu) / se_xbar # 54.47
-p_value <- 2 * (1 - pnorm(abs(zobs)))
-print(p_value)
+t_obs2  <- (xbar - mu) / se_xbar # 54.47
+p_value2 <- 2 * (1 - pt(q=t_obs2,df=n-1))
+print(p_value2)
 ```
 
 #### Using built-in functions
@@ -92,8 +99,16 @@ print(p_value)
 mean_test <- t.test(data$AREA, mu = mu, alternative = "two.sided", conf.level = 0.95)
 mean_test$p.value
 ```
+#### Comparing both metods
+```{r}
+print(paste0("p-value with R of: ",round(mean_test$p.value,3))) 
+print(paste0("p-value by hand of: ",round(p_value2,3))) 
+
+```
+
+
 #### Conclusion
-The p-value is about 0.0047 (the exact value depends on if you use the formula or the built in functions in R), so we reject the null hypothesis. The interpretation is that the mean (or expected) area of the housing units is not 75 square meters.
+The p-value is either 0.0046 or 0.0049 depending on the method, but since the level of significance is 0.05 we reject the null hypothesis. The interpretation is that the mean (or expected) area of the housing units is not 75 square meters.
 
 
 
@@ -113,13 +128,21 @@ $$ \hat{p} \pm z_{0.05} \sqrt{\frac{\hat{p}(1 - \hat{p})}{n}} $$
 #### Using the formula
 ```{r}
 conf_int <- c((phat - z*se), phat + z*se)
-print(conf_int)
+print(conf_int[2])
+
 ```
 
 #### Using the built-in functions
 ```{r}
 ci <- prop.test(sum(data$TYPE == "Apartment"), n, conf.level = 0.9)
 ci$conf.int
+```
+
+#### Comparing both methods
+```{r}
+print(paste0("C.I. proportion of apartments with R: [",round(ci$conf.int[1],3), ", ",round(ci$conf.int[2],3),"]"))
+print(paste0("C.I. proportion of apartments by hand:[ ",round(conf_int[1],3), ", ",round(conf_int[2],3),"]"))
+
 ```
 
 #### Conclusion
@@ -244,16 +267,16 @@ exercise 5 to predict the starting price of these housing units (Provide a point
 #### Point prediction
 ```{r}
 # Using model without log transformation
-test_1 <- test
-pred_1 <- predict(no_log_model, newdata = test_1)
-test_1$STARTING_PRICE <- pred_1
-head(test_1)
+#test_1 <- test
+#pred_1 <- predict(no_log_model, newdata = test_1)
+#test_1$STARTING_PRICE <- pred_1
+#head(test_1)
 
 # Using model with log transformation
-test_2 <- test
-pred_2 <- predict(log_model, newdata = test_2)
-test_2$STARTING_PRICE <- pred_2
-head(test_2)
+#test_2 <- test
+#pred_2 <- predict(log_model, newdata = test_2)
+#test_2$STARTING_PRICE <- pred_2
+#head(test_2)
 ```
 
 #### Interval prediction
