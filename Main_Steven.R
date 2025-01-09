@@ -71,8 +71,40 @@ print(paste0("p-value with R of: ",test2$p.value))
 print(paste0("p-value by hand of: ",p_value2)) 
 
 ### Part 3: ----
+#Estimate the proportion of apartments
+#With R
+n=length(data$BALCONY)
+ci_balcony_3 <- prop.test(x=data$TYPE=="Apartment", n=n, conf.level = 0.90)
+ci_balcony_3$conf.int
+
+#By Hand: We don't have the population sd so we use t-student
+p_obs3=count(~TYPE,data=data, success="Apartment")/n   #We get the sample proportion
+print(paste0("Observed proportion: ",p_obs3))
+sp = sqrt(p_obs3*(1-p_obs3)/n)
+#Confidence interval
+alpha = 0.1
+z_est3=abs(qnorm(p=0.05))  #alpha/2, around 1.6448
+CI_HAND_lower = p_obs3-z_est3*sp
+CI_HAND_upper = p_obs3+z_est3*sp
+print(paste0("C.I. proportion of apartments with R: ",ci_balcony_3$conf.int[1], ", ",ci_balcony_3$conf.int[2]))
+print(paste0("C.I. proportion of apartments by hand: ",CI_HAND_lower, ", ",CI_HAND_upper))
 
 ### Part 4: ----
+#Estimate the expected number of rooms
+#With R
+n=length(data$ROOMS)
+test4= t.test(data$ROOMS,conf.level = 0.95)
+
+#By Hand
+p_obs_4 = mean(data$ROOMS)
+alpha = 0.05
+t_est4= qt(0.975,n-1) #1.96
+sx = sd(data$ROOMS)
+CI_ROOMS_l4 = p_obs_4-t_est4*sx/sqrt(n)
+CI_ROOMS_u4 = p_obs_4+t_est4*sx/sqrt(n)
+
+print(paste0("C.I. number of rooms with R: ",test4$conf.int[1], ", ",test4$conf.int[2]))
+print(paste0("C.I. number of by hand: ",CI_ROOMS_l4, ", ",CI_ROOMS_u4))
 
 ### Part 5: ----
 
