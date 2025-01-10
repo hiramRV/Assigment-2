@@ -10,7 +10,7 @@ format: html
 | Caroline Birkehammar | caroline.birkehammar@gmail.com | 19971118-5562 |
 | Steven Hiram Rubio Vasquez | stevenrv97@gmail.com | 19970222-8793 |
 | Pablo Paras Ochoa | pablo.paras.ochoa@gmail.com | 10/08/1998 |
-| Value | Value | Value |
+| Faezeh Karegar Hojatabadi | faezeh.karegar@gmail.com | 19890903-1646 |
 
 
 #### Load data
