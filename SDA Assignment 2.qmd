@@ -91,7 +91,7 @@ data %>%
   ylab("Absolute frequency in sample") +
   theme_classic()
 ```
-The distribution as shown by the histogram is is left tailed and not clearly normally distributed. However, because the sample size is greater than 30 we can approximate the distribution of $\bar{x}$ with a normal distribution using the central limit theorem.
+The distribution as shown by the histogram is right tailed and not normally distributed. However, because the sample size is greater than 30 we can approximate the distribution of $\bar{x}$ with a normal distribution using the central limit theorem. 
 
 The null and alternative hypotheses are as follows:
 $$H_{0}: \mu = 0.75 \qquad H_{A}: \mu \ne 0.75$$
