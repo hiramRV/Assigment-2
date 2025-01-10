@@ -16,6 +16,8 @@ format: html
 #### Load data
 ```{r}
 library(readxl)
+library(tidyverse)
+library(ggplot2)
 data <- read_excel("dataset01.xlsx")
 test <- read_excel("test.xlsx")
 
@@ -80,7 +82,14 @@ mu      <- 75
 xbar    <- mean(data$AREA)
 se      <- sqrt(sum((data$AREA - mu)^2) / (n-1)) # Population variance unknown
 se_xbar <- se / sqrt(n) # Variance of xbar
-# hist(data$AREA, breaks = 60) # Not really normally distributed...
+
+data %>%
+  ggplot() +
+  geom_histogram(aes(AREA), fill = "steelblue", color = "grey15", binwidth = 4) + # Not really normally distributed...
+  labs(title = "Distribution of area in our sample") +
+  xlab("Area (in square meters)") +
+  ylab("Absolute frequency in sample") +
+  theme_classic()
 ```
 The distribution as shown by the histogram is not clearly normally distributed. However, the sample size is greater than 30, so we approximate the distribution of $\bar{x}$ with a normal distribution by the central limit theorem.
 
