@@ -39,9 +39,9 @@ se0         <- sqrt(p0 * (1 - p0) / n)
 ```
 
 
-We want to know how likely it is to obtain $\hat{p} = 0.55635$ if the true $p = 0.5$ at the 99% significance level. The null and alternative hypotheses are as follows:
+The observed proportion of balconies in our sample ($\hat{p}$) is equal to $0.55635$, but this is not enough to conclude whether or not half the housing units in the region have a balcony. What we want to know is actually how likely it is that we would observe $\hat{p} = 0.55635$ if the true value of $p$ is $0.5$. More formally, we first assume that $p = 0.5$ (which we denote our null hypothesis $H_{0}$) and estimate the likelihood of having observed $\hat{p} = 0.55635$ given that $H_{0}$ is true. A 1% significance level means that our test is designed so that, on average, we will incorrectly reject the null hypothesis 1% of the time. The null and alternative hypotheses are as follows:
 $$H_{0}: p = 0.5 \qquad H_{A}: p \ne 0.5$$
-The distribution of $\hat{p}$ is approximately normal with mean 0.5 and standard deviation 0.019 under the null hypothesis:
+We can assume that the distribution of $\hat{p}$ is approximately normal (since sample estimators for samples of suffiecient size are normally distributed around the real value). For the distribution, we use mean 0.5 ($H_{0}$) and standard deviation 0.019.  Formally, the distribution is as follows:
 $$ Since \quad n\hat{p}\hat{q} = 175.25 > 5, \qquad \hat{p} \sim N\left(0.5, \sqrt{\frac{0.5 \cdot 0.5}{701}}\right) = N(0.5, 0.019) $$
 
 #### Using the formula
