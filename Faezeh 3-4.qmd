@@ -1,26 +1,124 @@
 ---
-title: "Untitled"
+title: "Faezeh Report"
 format: html
 editor: visual
 ---
 
-## Quarto
-
-Quarto enables you to weave together content and executable code into a finished document. To learn more about Quarto see <https://quarto.org>.
-
-## Running Code
-
-When you click the **Render** button a document will be generated that includes both content and the output of embedded code. You can embed code like this:
+#### Load data
 
 ```{r}
-1 + 1
+library(readxl)
+data <- read_excel("dataset01.xlsx")
+test <- read_excel("test.xlsx")
+
+data$STARTING_PRICE <- data$STARTING_PRICE / 1000000
+data[c("REGION", "TYPE", "BALCONY")] <- lapply(data[c("REGION", "TYPE", "BALCONY")], as.factor)
+levels(data$BALCONY) <- c("0", "1")
 ```
 
-You can add options to executable code like this
+# Task 3
+
+***Estimate the proportion of apartments in the region through a 90% confidence interval.***
+
+#### Data and problem description
+
+To estimate the proportion of apartments, the following data is used:
+
+-   **Sample Size (n)**: The total number of housing units in the dataset.
+
+-   **Successes**: The number of housing units categorized as "Apartment".
+
+The formula for the 90% confidence interval for a proportion is:
+
+$$ \hat{p} \pm z_{0.05} \sqrt{\frac{\hat{p}(1 - \hat{p})}{n}} $$
+
+Where:
+
+-   $\hat{p}$ is the sample proportion (calculated as the number of successes divided by the sample size).
+-   $z_{0.05}$ is the critical value for a 90% confidence level (z = 1.645)).
+-   $n$ is the sample size.
 
 ```{r}
-#| echo: false
-2 * 2
+phat  <- sum(data$TYPE == "Apartment") / n
+z     <- qnorm(0.95) # Two-sided, so 90% ci uses z = 0.95
+se    <- sqrt(phat*(1-phat)/n)
 ```
 
-The `echo: false` option disables the printing of code (only output is displayed).
+#### Using the formula
+
+The confidence interval is calculated as:
+
+```{r}
+conf_int <- c((phat - z*se), phat + z*se)
+print(conf_int)
+```
+
+#### Using the built-in functions
+
+To validate the manually calculated confidence interval, R's `prop.test()` function is used:
+
+```{r}
+ci <- prop.test(sum(data$TYPE == "Apartment"), n, conf.level = 0.9)
+ci$conf.int
+```
+
+#### Comparing both methods
+
+The results of the manual calculation and the R function are compared to ensure consistency:
+
+```{r}
+print(paste0("C.I. proportion of apartments with R: [",round(ci$conf.int[1],3), ", ",round(ci$conf.int[2],3),"]"))
+print(paste0("C.I. proportion of apartments by hand: [",round(conf_int[1],3), ", ",round(conf_int[2],3),"]"))
+```
+
+#### Conclusion
+
+The 90% confidence interval for the proportion of housing units that are apartments provides a range within which the true proportion is expected to fall with 90% certainty. The manually calculated confidence interval and the interval obtained using R both indicate that the proportion of apartments is approximately 76% to 82%. This insight helps the agency understand how common apartment-style housing is in the area.
+
+# Task 4
+
+***Estimate the expected number of rooms of the housing units in the region through a 95% confidence interval.***
+
+#### Data and problem description
+
+To estimate the expected number of rooms, the following data is used:
+
+-   **Sample Mean (**$\bar{x}$**)**: The average number of rooms across all housing units.
+
+-   **Sample Standard Deviation (s)**: The standard deviation of the number of rooms.
+
+-   **Sample Size (n)**: The total number of housing units.
+
+Since the population variance is unknown, the distribution of the expected number of rooms follows a t-distribution. The formula for the 95% confidence interval is: $$ \bar{x} \pm t_{0.025, n-1} \frac{s}{\sqrt{n}} $$ Where:
+
+-   $t\_{0.025, n-1}$ is the critical value of the t-distribution with (n-1) degrees of freedom at a 95% confidence level.
+-   $\bar{x}$ is the sample mean. - (s) is the sample standard deviation.
+-   $n$ is the sample size.
+
+```{r}
+xbar <- mean(data$ROOMS)  # About 3.15
+se   <- sd(data$ROOMS)    # About 1.59
+t975 <- qt(0.975, n-1)
+```
+
+#### Using the formulas
+
+The confidence interval is calculated as:
+
+```{r}
+conf_int <- c((xbar - t975 * se / sqrt(n)), xbar + t975 * se / sqrt(n))
+print(conf_int)
+```
+
+#### Using the built-in functions
+
+To validate the manually calculated confidence interval, R's `t.test()` function is used:
+
+```{r}
+ci <- t.test(data$ROOMS, conf.level = 0.95)
+ci$conf.int
+```
+
+#### Conclusion
+
+The confidence interval for the mean (expected) number of rooms provides a range within which the true mean is expected to fall with 95% certainty. Both the manually calculated confidence interval and the interval obtained using R suggest that the expected number of rooms is between approximately 3.03 and 3.27. This insight helps the agency understand typical housing configurations in the region.
