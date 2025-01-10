@@ -13,7 +13,8 @@ library(RColorBrewer)
 library(DescTools)
 library(e1071)
 library(scales)
-
+library(olsrr)
+library(Hmisc)
 data <-read.xlsx("dataset01.xlsx")
 
 ### Pre-processing ----
@@ -107,5 +108,31 @@ print(paste0("C.I. number of rooms with R: ",test4$conf.int[1], ", ",test4$conf.
 print(paste0("C.I. number of by hand: ",CI_ROOMS_l4, ", ",CI_ROOMS_u4))
 
 ### Part 5: ----
+#Linear model for everything!!
+#we get a look at all the variables
+plot(data)  #It looks like Area and rooms area related in a linear way
+model = lm(STARTING_PRICE~REGION+TYPE+ROOMS+AREA+BALCONY, data=data)
+summary(model)  #R-squared of 0.5439
+print("We get a large value for rooms, indicating that it may be not usefull")
+#Lets check the correlation of the variables
+round(cor(data$ROOMS,data$AREA), 3)
+print("High cor value")
+ols_vif_tol(model)   #Check collinearity
+print("A high value of VIF in rooms indicates that is highly related to other predictors, 
+      and we have already seen that is to AREA. So, we'll drop it since it doen't add up
+      to the model")
+model2 = lm(STARTING_PRICE~REGION+TYPE+AREA+BALCONY, data=data) #No rooms
+model3 = lm(STARTING_PRICE~REGION+TYPE+ROOMS+BALCONY, data=data) #No area
+summary(model2) #R-squared of 0.5444
+summary(model3) #R-squared of 0.4637
+print("Model 2, no rooms, is by far the best one.")
+ols_vif_tol(model2)
+ols_vif_tol(model3)
+print("Removing either room or area reflects a better VIF score, we stick with removing
+      ROOMS since it gets a better R-square")
+#How, interactions maybe? 
+model4 = lm(STARTING_PRICE~AREA+BALCONY+REGION+TYPE+BALCONY*REGION, data=data)
+ols_vif_tol(model4)
+summary(model4) #R-squared of 5484
 
 ### Part 6: ----
