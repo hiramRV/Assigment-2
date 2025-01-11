@@ -235,7 +235,7 @@ plot(STARTING_PRICE ~ log(AREA), data = data, main = "Log of Area")
 plot(log(STARTING_PRICE) ~ log(AREA), data = data, main = "Log of Starting Price and Area")
 ```
 
-While the plot without any transformations shows a quite linear relationship between the starting price and area of housing units, it also displays more heteroskedasticity for larger housing units. Taking the log of both starting price and area renders a linear and homoskedastic plot, and could be a good option for further analysis and model creation.
+While the plot without any transformations shows a fairly linear relationship between the starting price and area of housing units, it also displays more heteroskedasticity for larger housing units. Taking the log of both starting price and area renders a linear and homoskedastic plot, and could be a good option for further analysis and model creation.
 
 #### Fit multiple regression model
 
