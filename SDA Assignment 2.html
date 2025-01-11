@@ -185,7 +185,7 @@ window.Quarto = {
 <h4 class="anchored" data-anchor-id="using-the-formula">Using the formula</h4>
 <div class="cell">
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.002847032</code></pre>
+<pre><code>[1] 0</code></pre>
 </div>
 </div>
 </section>
@@ -195,7 +195,7 @@ window.Quarto = {
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>test_balcony <span class="ot">=</span> <span class="fu">prop.test</span>(n_balconies, <span class="at">n =</span> n, <span class="at">p =</span> <span class="fl">0.5</span>, <span class="at">alternative =</span> <span class="st">"two.sided"</span>, <span class="at">conf.level =</span> <span class="fl">0.99</span>)</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>test_balcony<span class="sc">$</span>p.value</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.003218923</code></pre>
+<pre><code>[1] 4.930043e-154</code></pre>
 </div>
 </div>
 </section>
@@ -203,16 +203,16 @@ window.Quarto = {
 <h4 class="anchored" data-anchor-id="comparing-both-methods">Comparing both methods</h4>
 <div class="cell">
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] "p-value with R of: 0.00321892272071506"</code></pre>
+<pre><code>[1] "p-value with R of: 4.93004333850282e-154"</code></pre>
 </div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] "p-value by hand of: 0.00284703196300162"</code></pre>
+<pre><code>[1] "p-value by hand of: 0"</code></pre>
 </div>
 </div>
 </section>
 <section id="conclusion" class="level4">
 <h4 class="anchored" data-anchor-id="conclusion">Conclusion</h4>
-<p>Since the p-value is less than 0.01 in both cases, the observed proportion of balconies is very unlikely under the null hypothesis, even on the 99% significance level. Therefore, we reject the null hypothesis that <span class="math inline">\(p = 0.5\)</span>.</p>
+<p>Since the p-value is less than 0.01 in both cases, the observed proportion of balconies is very unlikely under the null hypothesis, even on the 99% significance level. Therefore, we reject the null hypothesis that <span class="math inline">\(p = 0.5\)</span>. However, it must be remarked that the proportion of balconies, while not exactly half, is still likely to somewhat above one half (though a one sided hypothesis test would be necesary to confirm that).</p>
 </section>
 </section>
 <section id="task-2" class="level1">
@@ -229,8 +229,9 @@ window.Quarto = {
 </div>
 </div>
 </div>
-<p>The distribution as shown by the histogram is right tailed and not normally distributed. However, because the sample size is greater than 30 we can approximate the distribution of <span class="math inline">\(\bar{x}\)</span> with a normal distribution using the central limit theorem.</p>
-<p>The null and alternative hypotheses are as follows: <span class="math display">\[H_{0}: \mu = 0.75 \qquad H_{A}: \mu \ne 0.75\]</span></p>
+<p>The distribution of <span class="math inline">\(x\)</span> as shown by the histogram is right tailed and not normally distributed. However, because the sample size is greater than 30 we can approximate the distribution of <span class="math inline">\(\bar{X}\)</span> with a normal distribution using the central limit theorem.</p>
+<p>The observed mean of the area in our sample (that is to say, the estimate) is equal to <span class="math inline">\(79.2 m^2\)</span> As in the previous problem, we can determine whether it is likely that the actual value is <span class="math inline">\(75 m^2\)</span> by estimating the likelihood that we would observe <span class="math inline">\(\bar{x} = 79.2 m^2\)</span> if <span class="math inline">\(\bar{X} = 75 m^2\)</span>.</p>
+<p>Therefore, our null and alternative hypotheses are as follows: <span class="math display">\[H_{0}: \mu = 0.75 \qquad H_{A}: \mu \ne 0.75\]</span></p>
 </section>
 <section id="using-the-formula-1" class="level4">
 <h4 class="anchored" data-anchor-id="using-the-formula-1">Using the formula</h4>
@@ -261,7 +262,7 @@ window.Quarto = {
 </section>
 <section id="conclusion-1" class="level4">
 <h4 class="anchored" data-anchor-id="conclusion-1">Conclusion</h4>
-<p>The p-value is either 0.0046 or 0.0049 depending on the method, but since the level of significance is 0.05 we reject the null hypothesis. The interpretation is that the mean (or expected) area of the housing units is not 75 square meters.</p>
+<p>The p-value is either <span class="math inline">\(0.0046\)</span> or <span class="math inline">\(0.0049\)</span> depending on the method. Because the pre-established level of significance is 0.05 we can reject the null hypothesis. Our interpretation therefore, is that the mean (or expected) area of the housing units is not 75 square meters as it is highly unlikely we would have observed a value of <span class="math inline">\(\bar{x} = 79.2 m^2\)</span> if the actual value were <span class="math inline">\(\bar{X} = 75 m^2\)</span>.</p>
 </section>
 </section>
 <section id="task-3" class="level1">
@@ -269,7 +270,7 @@ window.Quarto = {
 <p><strong><em>Estimate the proportion of apartments in the region through a 90% confidence interval.</em></strong></p>
 <section id="data-and-problem-description-2" class="level4">
 <h4 class="anchored" data-anchor-id="data-and-problem-description-2">Data and problem description</h4>
-<p>The 90% confidence interval for a proportion is as follows: <span class="math display">\[ \hat{p} \pm z_{0.05} \sqrt{\frac{\hat{p}(1 - \hat{p})}{n}} \]</span></p>
+<p>Our sample’s estimate for the proportion of apartments was <span class="math inline">\(0.792\)</span>, but it is very unlikely that we have obtained exactly the same proportion of apartments in the sample as in the population. Therefore, we want to produce a confidence interval which we can be fairly sure includes the value in the population. More formally the 90% confidence interval for a proportion indicates that on average, the interval would contain the true value in 9 out of 10 samples. It can be expressed as follows: <span class="math display">\[ \hat{p} \pm z_{0.05} \sqrt{\frac{\hat{p}(1 - \hat{p})}{n}} \]</span></p>
 </section>
 <section id="using-the-formula-2" class="level4">
 <h4 class="anchored" data-anchor-id="using-the-formula-2">Using the formula</h4>
@@ -302,7 +303,7 @@ attr(,"conf.level")
 </section>
 <section id="conclusion-2" class="level4">
 <h4 class="anchored" data-anchor-id="conclusion-2">Conclusion</h4>
-<p>The 90% confidence interval for the proportion of housing units that are apartments is about 0.76 to 0.82.</p>
+<p>The 90% confidence interval for the proportion of housing units that are apartments is about 0.76 to 0.82. This means that if we repeated this process with different samples an infinite number of times, 90% of calculated intervals would contain the real value.</p>
 </section>
 </section>
 <section id="task-4" class="level1">
@@ -390,7 +391,7 @@ REGIONStockholm              1.706318   0.584951   2.917  0.00365 **
 REGIONWest                   0.774388   0.706154   1.097  0.27320    
 TYPETerrace                  2.616140   2.663368   0.982  0.32632    
 TYPEVilla                    1.519649   1.075489   1.413  0.15812    
-BALCONY1                    -0.291673   0.173814  -1.678  0.09380 .  
+BALCONYYes                  -0.291673   0.173814  -1.678  0.09380 .  
 ROOMS                       -0.596187   0.181092  -3.292  0.00105 ** 
 AREA                         0.091316   0.010144   9.002  &lt; 2e-16 ***
 REGIONNorthwest:TYPETerrace  0.904760   1.289551   0.702  0.48317    
@@ -439,7 +440,7 @@ REGIONStockholm             -0.14326    0.57441  -0.249 0.803130
 REGIONWest                   0.92313    0.76985   1.199 0.230904    
 TYPETerrace                 -0.07885    0.14215  -0.555 0.579300    
 TYPEVilla                    0.26554    0.11937   2.225 0.026442 *  
-BALCONY1                    -0.05732    0.03250  -1.764 0.078205 .  
+BALCONYYes                  -0.05732    0.03250  -1.764 0.078205 .  
 ROOMS                        0.06146    0.04105   1.497 0.134811    
 log(AREA)                    0.68630    0.13741   4.994 7.52e-07 ***
 REGIONNorthwest:TYPETerrace  0.01432    0.22550   0.064 0.949375    
@@ -466,6 +467,7 @@ Multiple R-squared:  0.6403,    Adjusted R-squared:  0.627
 F-statistic: 48.06 on 25 and 675 DF,  p-value: &lt; 2.2e-16</code></pre>
 </div>
 </div>
+<p>A third model without rooms.</p>
 </section>
 <section id="conclusion-4" class="level4">
 <h4 class="anchored" data-anchor-id="conclusion-4">Conclusion</h4>
@@ -477,6 +479,15 @@ F-statistic: 48.06 on 25 and 675 DF,  p-value: &lt; 2.2e-16</code></pre>
 <p><strong><em>The dataset test.xlsx that can be found in Athena (Resources/Part 1/Assignment) contains information on the region, the type of housing unit, the presence of a balcony, the number of rooms and the area of ten housing units. Use your regression model from exercise 5 to predict the starting price of these housing units (Provide a point prediction, ˆy, and an interval prediction.)</em></strong></p>
 <section id="point-prediction" class="level4">
 <h4 class="anchored" data-anchor-id="point-prediction">Point prediction</h4>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="SDA-Assignment-2_files/figure-html/unnamed-chunk-22-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
 </section>
 <section id="interval-prediction" class="level4">
 <h4 class="anchored" data-anchor-id="interval-prediction">Interval prediction</h4>
