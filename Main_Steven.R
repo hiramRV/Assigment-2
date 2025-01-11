@@ -16,6 +16,7 @@ library(scales)
 library(olsrr)
 library(Hmisc)
 data <-read.xlsx("dataset01.xlsx")
+test <- read_excel("test.xlsx")
 
 ### Pre-processing ----
 str(data)
@@ -23,6 +24,12 @@ View(data)
 data$REGION<-factor(data$REGION)
 data$TYPE<-factor(data$TYPE)
 data$BALCONY<-factor(data$BALCONY)
+data$STARTING_PRICE <- data$STARTING_PRICE / 1000000
+
+test$REGION<-factor(test$REGION)
+test$TYPE<-factor(test$TYPE)
+test$BALCONY<-factor(test$BALCONY)
+View(test)
 
 ### Part 1: ----
 #With a level of significance of 1%. 
@@ -136,3 +143,56 @@ ols_vif_tol(model4)
 summary(model4) #R-squared of 5484
 
 ### Part 6: ----
+#Using a model to predict
+#Caroline's Model
+m2 <- lm(log(STARTING_PRICE) ~ REGION + TYPE + BALCONY + ROOMS + log(AREA) + 
+           REGION*TYPE + REGION*BALCONY + REGION*ROOMS + REGION*log(AREA) + 
+           TYPE*BALCONY + TYPE*ROOMS + TYPE*log(AREA) + 
+           BALCONY*ROOMS + BALCONY*log(AREA) + 
+           ROOMS*log(AREA), data = data)
+
+model1 <- step(m2, direction = "backward", trace = 0)
+print("Predicted values for House 5")
+predict(model,test[5,],interval = "prediction", level = 0.90)
+
+
+predict(model2,test[5,],interval = "prediction", level = 0.90)
+predict(model3,test[5,],interval = "prediction", level = 0.90)
+exp(predict(log_model,test[5,],interval = "prediction", level = 0.90))
+
+#Nuevos dataframe
+pred1 <- predict(model2,test,interval = "prediction", level = 0.90)
+pred2 <-predict(model3,test,interval = "prediction", level = 0.90)
+pred3 <-exp(predict(log_model,test,interval = "prediction", level = 0.90))
+
+
+###Random Code
+model1Frame <- data.frame(Variable = rownames(pred1),
+                          Coefficient = pred1[,1],
+                          SE=abs(pred1[,1]-pred1[,3]),
+                          modelName = "Model 1")
+model2Frame <- data.frame(Variable = rownames(pred2),
+                          Coefficient = pred2[,1],
+                          SE=abs(pred2[,1]-pred2[,3]),
+                          modelName = "Model 2")
+model3Frame <- data.frame(Variable = rownames(pred3),
+                          Coefficient = pred3[,1],
+                          SE=abs(pred3[,1]-pred3[,3]),
+                          modelName = "Model 3")
+# Combine these data.frames
+allModelFrame <- data.frame(rbind(model1Frame, model2Frame, model3Frame))  # etc.
+
+# Plot
+zp1 <- ggplot(allModelFrame, aes(colour = modelName))
+zp1 <- zp1 + geom_hline(yintercept = 0, colour = gray(1/2), lty = 2)
+zp1 <- zp1 + geom_linerange(aes(x = Variable, ymin = Coefficient - SE,
+                                ymax = Coefficient + SE),
+                            lwd = 1, position = position_dodge(width = 1/2))
+zp1 <- zp1 + geom_pointrange(aes(x = Variable, y = Coefficient, ymin = Coefficient - SE,
+                                 ymax = Coefficient + SE),
+                             lwd = 1/2, position = position_dodge(width = 1/2),
+                             shape = 21, fill = "WHITE")
+zp1 <- zp1 + coord_flip() + theme_bw()
+zp1 <- zp1 + ggtitle("Comparing several models")+ylab("Predicted Starting price") +xlab("House predicted") 
+print(zp1)  
+
