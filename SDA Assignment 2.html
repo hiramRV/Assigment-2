@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.3.353">
+<meta name="generator" content="quarto-1.5.57">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -23,7 +23,7 @@ ul.task-list li input[type="checkbox"] {
 }
 /* CSS for syntax highlighting */
 pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span { line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
@@ -34,7 +34,7 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -69,8 +69,35 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="SDA Assignment 2_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="SDA Assignment 2_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
 
-  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 </head>
 
@@ -101,11 +128,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </div>
   
 
+
 </header>
+
 
 <section id="authors" class="level2">
 <h2 class="anchored" data-anchor-id="authors">Authors</h2>
-<table class="table">
+<table class="caption-top table">
 <colgroup>
 <col style="width: 33%">
 <col style="width: 36%">
@@ -135,37 +164,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <td>10/08/1998</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">Value</td>
-<td>Value</td>
-<td>Value</td>
+<td style="text-align: left;">Faezeh Karegar Hojatabadi</td>
+<td>faezeh.karegar@gmail.com</td>
+<td>19890903-1646</td>
 </tr>
 </tbody>
 </table>
 <section id="load-data" class="level4">
 <h4 class="anchored" data-anchor-id="load-data">Load data</h4>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readxl)</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
-✔ dplyr     1.1.4     ✔ readr     2.1.5
-✔ forcats   1.0.0     ✔ stringr   1.5.1
-✔ ggplot2   3.5.1     ✔ tibble    3.2.1
-✔ lubridate 1.9.3     ✔ tidyr     1.3.1
-✔ purrr     1.0.2     
-── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
-✖ dplyr::filter() masks stats::filter()
-✖ dplyr::lag()    masks stats::lag()
-ℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">read_excel</span>(<span class="st">"dataset01.xlsx"</span>)</span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>test <span class="ot">&lt;-</span> <span class="fu">read_excel</span>(<span class="st">"test.xlsx"</span>)</span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>data<span class="sc">$</span>STARTING_PRICE <span class="ot">&lt;-</span> data<span class="sc">$</span>STARTING_PRICE <span class="sc">/</span> <span class="dv">1000000</span></span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>data[<span class="fu">c</span>(<span class="st">"REGION"</span>, <span class="st">"TYPE"</span>, <span class="st">"BALCONY"</span>)] <span class="ot">&lt;-</span> <span class="fu">lapply</span>(data[<span class="fu">c</span>(<span class="st">"REGION"</span>, <span class="st">"TYPE"</span>, <span class="st">"BALCONY"</span>)], as.factor)</span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="fu">levels</span>(data<span class="sc">$</span>BALCONY) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"0"</span>, <span class="st">"1"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
 </section>
 </section>
 <section id="task-1" class="level1">
@@ -173,21 +179,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p><strong><em>Using a significance level of 1%, test the hypothesis that half of the housing units in the region have a balcony.</em></strong></p>
 <section id="data-and-problem-description" class="level4">
 <h4 class="anchored" data-anchor-id="data-and-problem-description">Data and problem description</h4>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>n_balconies <span class="ot">&lt;-</span> <span class="fu">sum</span>(data<span class="sc">$</span>BALCONY <span class="sc">==</span> <span class="dv">1</span>) <span class="co"># 390</span></span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>n           <span class="ot">&lt;-</span> <span class="fu">length</span>(data<span class="sc">$</span>BALCONY)   <span class="co"># 701</span></span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>phat        <span class="ot">&lt;-</span> n_balconies <span class="sc">/</span> n        <span class="co"># About 0.55635</span></span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>p0          <span class="ot">&lt;-</span> <span class="fl">0.5</span></span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>se0         <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(p0 <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> p0) <span class="sc">/</span> n)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<p>The observed proportion of balconies in our sample (<span class="math inline">\(\hat{p}\)</span>) is equal to <span class="math inline">\(0.55635\)</span>, but this is not enough to conclude whether or not half the housing units in the region have a balcony. What we want to know is actually how likely it is that we would observe <span class="math inline">\(\hat{p} = 0.55635\)</span> if the true value of <span class="math inline">\(p\)</span> is <span class="math inline">\(0.5\)</span>. More formally, we first assume that <span class="math inline">\(p = 0.5\)</span> (which we denote our null hypothesis <span class="math inline">\(H_{0}\)</span>) and estimate the likelihood of having observed <span class="math inline">\(\hat{p} = 0.55635\)</span> given that <span class="math inline">\(H_{0}\)</span> is true. A 1% significance level means that our test is designed so that, on average, we will incorrectly reject the null hypothesis 1% of the time. The null and alternative hypotheses are as follows: <span class="math display">\[H_{0}: p = 0.5 \qquad H_{A}: p \ne 0.5\]</span> We can assume that the distribution of <span class="math inline">\(\hat{p}\)</span> is approximately normal (since sample estimators for samples of suffiecient size are normally distributed around the real value). For the distribution, we use mean 0.5 (<span class="math inline">\(H_{0}\)</span>) and standard deviation 0.019. Formally, the distribution is as follows: <span class="math display">\[ Since \quad n\hat{p}\hat{q} = 175.25 &gt; 5, \qquad \hat{p} \sim N\left(0.5, \sqrt{\frac{0.5 \cdot 0.5}{701}}\right) = N(0.5, 0.019) \]</span></p>
+<p>The observed proportion of balconies in our sample (<span class="math inline">\(\hat{p}\)</span>) is equal to <span class="math inline">\(0.55635\)</span>, but this is not enough to conclude whether or not half the housing units in the region have a balcony. What we want to know is actually how likely it is that we would observe <span class="math inline">\(\hat{p} = 0.55635\)</span> if the true value of <span class="math inline">\(p\)</span> is <span class="math inline">\(0.5\)</span>. More formally, we first assume that <span class="math inline">\(p = 0.5\)</span> (which we denote our null hypothesis <span class="math inline">\(H_{0}\)</span>) and estimate the likelihood of having observed <span class="math inline">\(\hat{p} = 0.55635\)</span> given that <span class="math inline">\(H_{0}\)</span> is true. A 1% significance level means that our test is designed so that, on average, we will incorrectly reject the null hypothesis 1% of the time. The null and alternative hypotheses are as follows: <span class="math display">\[H_{0}: p = 0.5 \qquad H_{A}: p \ne 0.5\]</span> We can assume that the distribution of <span class="math inline">\(\hat{p}\)</span> is approximately normal (since sample estimators for samples of sufficient size are normally distributed around the real value). For the distribution, we use mean 0.5 (<span class="math inline">\(H_{0}\)</span>) and standard deviation 0.019. Formally, the distribution is as follows: <span class="math display">\[ Since \quad n\hat{p}\hat{q} = 175.25 &gt; 5, \qquad \hat{p} \sim N\left(0.5, \sqrt{\frac{0.5 \cdot 0.5}{701}}\right) = N(0.5, 0.019) \]</span></p>
 </section>
 <section id="using-the-formula" class="level4">
 <h4 class="anchored" data-anchor-id="using-the-formula">Using the formula</h4>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>z <span class="ot">&lt;-</span> (phat <span class="sc">-</span> p0) <span class="sc">/</span> se0</span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>p_value <span class="ot">&lt;-</span> <span class="dv">2</span> <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> <span class="fu">pnorm</span>(<span class="fu">abs</span>(z)))</span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(p_value)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 0.002847032</code></pre>
 </div>
@@ -196,21 +192,19 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="using-built-in-functions" class="level4">
 <h4 class="anchored" data-anchor-id="using-built-in-functions">Using built-in functions</h4>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>test_balcony <span class="ot">=</span> <span class="fu">prop.test</span>(n_balconies, <span class="at">n =</span> n, <span class="at">p =</span> <span class="fl">0.5</span>, <span class="at">alternative =</span> <span class="st">"two.sided"</span>, <span class="at">conf.level =</span> <span class="fl">0.99</span>)</span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>test_balcony<span class="sc">$</span>p.value</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>test_balcony <span class="ot">=</span> <span class="fu">prop.test</span>(n_balconies, <span class="at">n =</span> n, <span class="at">p =</span> <span class="fl">0.5</span>, <span class="at">alternative =</span> <span class="st">"two.sided"</span>, <span class="at">conf.level =</span> <span class="fl">0.99</span>)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>test_balcony<span class="sc">$</span>p.value</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 0.003218923</code></pre>
 </div>
 </div>
 </section>
-<section id="comparing-both-metods" class="level4">
-<h4 class="anchored" data-anchor-id="comparing-both-metods">Comparing both metods</h4>
+<section id="comparing-both-methods" class="level4">
+<h4 class="anchored" data-anchor-id="comparing-both-methods">Comparing both methods</h4>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">paste0</span>(<span class="st">"p-value with R of: "</span>,test_balcony<span class="sc">$</span>p.value)) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] "p-value with R of: 0.00321892272071506"</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">paste0</span>(<span class="st">"p-value by hand of: "</span>,p_value)) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] "p-value by hand of: 0.00284703196300162"</code></pre>
 </div>
@@ -227,32 +221,20 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="data-and-problem-description-1" class="level4">
 <h4 class="anchored" data-anchor-id="data-and-problem-description-1">Data and problem description</h4>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>alpha   <span class="ot">&lt;-</span> <span class="fl">0.05</span></span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>mu      <span class="ot">&lt;-</span> <span class="dv">75</span></span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>xbar    <span class="ot">&lt;-</span> <span class="fu">mean</span>(data<span class="sc">$</span>AREA)</span>
-<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>se      <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(<span class="fu">sum</span>((data<span class="sc">$</span>AREA <span class="sc">-</span> mu)<span class="sc">^</span><span class="dv">2</span>) <span class="sc">/</span> (n<span class="dv">-1</span>)) <span class="co"># Population variance unknown</span></span>
-<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>se_xbar <span class="ot">&lt;-</span> se <span class="sc">/</span> <span class="fu">sqrt</span>(n) <span class="co"># Variance of xbar</span></span>
-<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>data <span class="sc">%&gt;%</span></span>
-<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>() <span class="sc">+</span></span>
-<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="fu">aes</span>(AREA), <span class="at">fill =</span> <span class="st">"steelblue"</span>, <span class="at">color =</span> <span class="st">"grey15"</span>, <span class="at">binwidth =</span> <span class="dv">4</span>) <span class="sc">+</span> <span class="co"># Not really normally distributed...</span></span>
-<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Distribution of area in our sample"</span>) <span class="sc">+</span></span>
-<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">"Area (in square meters)"</span>) <span class="sc">+</span></span>
-<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">"Absolute frequency in sample"</span>) <span class="sc">+</span></span>
-<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_classic</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="SDA-Assignment-2_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="SDA-Assignment-2_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
 </div>
 </div>
-<p>The distribution as shown by the histogram is is left tailed and not clearly normally distributed. However, because the sample size is greater than 30 we can approximate the distribution of <span class="math inline">\(\bar{x}\)</span> with a normal distribution using the central limit theorem.</p>
+</div>
+<p>The distribution as shown by the histogram is right tailed and not normally distributed. However, because the sample size is greater than 30 we can approximate the distribution of <span class="math inline">\(\bar{x}\)</span> with a normal distribution using the central limit theorem.</p>
 <p>The null and alternative hypotheses are as follows: <span class="math display">\[H_{0}: \mu = 0.75 \qquad H_{A}: \mu \ne 0.75\]</span></p>
 </section>
 <section id="using-the-formula-1" class="level4">
 <h4 class="anchored" data-anchor-id="using-the-formula-1">Using the formula</h4>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>t_obs2  <span class="ot">&lt;-</span> (xbar <span class="sc">-</span> mu) <span class="sc">/</span> se_xbar <span class="co"># 54.47</span></span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>p_value2 <span class="ot">&lt;-</span> <span class="dv">2</span> <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> <span class="fu">pt</span>(<span class="at">q=</span>t_obs2,<span class="at">df=</span>n<span class="dv">-1</span>))</span>
-<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(p_value2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 0.004895551</code></pre>
 </div>
@@ -261,21 +243,17 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="using-built-in-functions-1" class="level4">
 <h4 class="anchored" data-anchor-id="using-built-in-functions-1">Using built-in functions</h4>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>mean_test <span class="ot">&lt;-</span> <span class="fu">t.test</span>(data<span class="sc">$</span>AREA, <span class="at">mu =</span> mu, <span class="at">alternative =</span> <span class="st">"two.sided"</span>, <span class="at">conf.level =</span> <span class="fl">0.95</span>)</span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>mean_test<span class="sc">$</span>p.value</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 0.004656418</code></pre>
 </div>
 </div>
 </section>
-<section id="comparing-both-metods-1" class="level4">
-<h4 class="anchored" data-anchor-id="comparing-both-metods-1">Comparing both metods</h4>
+<section id="comparing-both-metods" class="level4">
+<h4 class="anchored" data-anchor-id="comparing-both-metods">Comparing both metods</h4>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">paste0</span>(<span class="st">"p-value with R of: "</span>,<span class="fu">round</span>(mean_test<span class="sc">$</span>p.value,<span class="dv">3</span>))) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] "p-value with R of: 0.005"</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">paste0</span>(<span class="st">"p-value by hand of: "</span>,<span class="fu">round</span>(p_value2,<span class="dv">3</span>))) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] "p-value by hand of: 0.005"</code></pre>
 </div>
@@ -291,18 +269,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p><strong><em>Estimate the proportion of apartments in the region through a 90% confidence interval.</em></strong></p>
 <section id="data-and-problem-description-2" class="level4">
 <h4 class="anchored" data-anchor-id="data-and-problem-description-2">Data and problem description</h4>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>phat  <span class="ot">&lt;-</span> <span class="fu">sum</span>(data<span class="sc">$</span>TYPE <span class="sc">==</span> <span class="st">"Apartment"</span>) <span class="sc">/</span> n</span>
-<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>z     <span class="ot">&lt;-</span> <span class="fu">qnorm</span>(<span class="fl">0.95</span>) <span class="co"># Two-sided, so 90% ci uses z = 0.95</span></span>
-<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>se    <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(phat<span class="sc">*</span>(<span class="dv">1</span><span class="sc">-</span>phat)<span class="sc">/</span>n)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
 <p>The 90% confidence interval for a proportion is as follows: <span class="math display">\[ \hat{p} \pm z_{0.05} \sqrt{\frac{\hat{p}(1 - \hat{p})}{n}} \]</span></p>
 </section>
 <section id="using-the-formula-2" class="level4">
 <h4 class="anchored" data-anchor-id="using-the-formula-2">Using the formula</h4>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>conf_int <span class="ot">&lt;-</span> <span class="fu">c</span>((phat <span class="sc">-</span> z<span class="sc">*</span>se), phat <span class="sc">+</span> z<span class="sc">*</span>se)</span>
-<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(conf_int[<span class="dv">2</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 0.8169535</code></pre>
 </div>
@@ -311,8 +282,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="using-the-built-in-functions" class="level4">
 <h4 class="anchored" data-anchor-id="using-the-built-in-functions">Using the built-in functions</h4>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>ci <span class="ot">&lt;-</span> <span class="fu">prop.test</span>(<span class="fu">sum</span>(data<span class="sc">$</span>TYPE <span class="sc">==</span> <span class="st">"Apartment"</span>), n, <span class="at">conf.level =</span> <span class="fl">0.9</span>)</span>
-<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>ci<span class="sc">$</span>conf.int</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 0.7646586 0.8164872
 attr(,"conf.level")
@@ -320,14 +289,12 @@ attr(,"conf.level")
 </div>
 </div>
 </section>
-<section id="comparing-both-methods" class="level4">
-<h4 class="anchored" data-anchor-id="comparing-both-methods">Comparing both methods</h4>
+<section id="comparing-both-methods-1" class="level4">
+<h4 class="anchored" data-anchor-id="comparing-both-methods-1">Comparing both methods</h4>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">paste0</span>(<span class="st">"C.I. proportion of apartments with R: ["</span>,<span class="fu">round</span>(ci<span class="sc">$</span>conf.int[<span class="dv">1</span>],<span class="dv">3</span>), <span class="st">", "</span>,<span class="fu">round</span>(ci<span class="sc">$</span>conf.int[<span class="dv">2</span>],<span class="dv">3</span>),<span class="st">"]"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] "C.I. proportion of apartments with R: [0.765, 0.816]"</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">paste0</span>(<span class="st">"C.I. proportion of apartments by hand:[ "</span>,<span class="fu">round</span>(conf_int[<span class="dv">1</span>],<span class="dv">3</span>), <span class="st">", "</span>,<span class="fu">round</span>(conf_int[<span class="dv">2</span>],<span class="dv">3</span>),<span class="st">"]"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] "C.I. proportion of apartments by hand:[ 0.766, 0.817]"</code></pre>
 </div>
@@ -343,19 +310,12 @@ attr(,"conf.level")
 <p><strong><em>Estimate the expected number of rooms of the housing units in the region through a 95% confidence interval.</em></strong></p>
 <section id="data-and-problem-description-3" class="level4">
 <h4 class="anchored" data-anchor-id="data-and-problem-description-3">Data and problem description</h4>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>xbar <span class="ot">&lt;-</span> <span class="fu">mean</span>(data<span class="sc">$</span>ROOMS)  <span class="co"># About 3.15</span></span>
-<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>se   <span class="ot">&lt;-</span> <span class="fu">sd</span>(data<span class="sc">$</span>ROOMS)    <span class="co"># About 1.59</span></span>
-<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>t975 <span class="ot">&lt;-</span> <span class="fu">qt</span>(<span class="fl">0.975</span>, n<span class="dv">-1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
 <p>Since the variance is unknown, the distribution of the expected number of rooms follow a t-distribution. The 95% confidence interval is defined as:</p>
 <p><span class="math display">\[ \bar{x} \pm t_{0.025, n-1} \frac{s_x}{\sqrt{n}} \]</span></p>
 </section>
 <section id="using-the-formulas" class="level4">
 <h4 class="anchored" data-anchor-id="using-the-formulas">Using the formulas</h4>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>conf_int <span class="ot">&lt;-</span> <span class="fu">c</span>((xbar <span class="sc">-</span> t975 <span class="sc">*</span> se <span class="sc">/</span> <span class="fu">sqrt</span>(n)), xbar <span class="sc">+</span> t975 <span class="sc">*</span> se <span class="sc">/</span> <span class="fu">sqrt</span>(n))</span>
-<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(conf_int)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 3.033163 3.269262</code></pre>
 </div>
@@ -364,8 +324,6 @@ attr(,"conf.level")
 <section id="using-the-built-in-functions-1" class="level4">
 <h4 class="anchored" data-anchor-id="using-the-built-in-functions-1">Using the built-in functions</h4>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>ci <span class="ot">&lt;-</span> <span class="fu">t.test</span>(data<span class="sc">$</span>ROOMS, <span class="at">conf.level =</span> <span class="fl">0.95</span>)</span>
-<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>ci<span class="sc">$</span>conf.int</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 3.033163 3.269262
 attr(,"conf.level")
@@ -386,25 +344,23 @@ attr(,"conf.level")
 <p>Linear regression makes certain assumptions, one of which is a linear relationship between the independent variables and the dependent variable. Before creating and comparing different multiple regression models, we must check the linearity assumption between the starting price and the numerical independent variables (rooms and area), and conduct appropriate transformations as needed.</p>
 <p>We start by checking the relationship between rooms and starting price.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">2</span>))</span>
-<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(STARTING_PRICE <span class="sc">~</span> ROOMS, <span class="at">data =</span> data, <span class="at">main =</span> <span class="st">"Without transformation"</span>)</span>
-<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">log</span>(STARTING_PRICE) <span class="sc">~</span> ROOMS, <span class="at">data =</span> data, <span class="at">main =</span> <span class="st">"Log of Starting Price"</span>)</span>
-<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(STARTING_PRICE <span class="sc">~</span> <span class="fu">log</span>(ROOMS), <span class="at">data =</span> data, <span class="at">main =</span> <span class="st">"Log of Rooms"</span>)</span>
-<span id="cb36-5"><a href="#cb36-5" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">log</span>(STARTING_PRICE) <span class="sc">~</span> <span class="fu">log</span>(ROOMS), <span class="at">data =</span> data, <span class="at">main =</span> <span class="st">"Log of Starting Price and Rooms"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="SDA-Assignment-2_files/figure-html/unnamed-chunk-17-1.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="SDA-Assignment-2_files/figure-html/unnamed-chunk-17-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 </div>
 <p>No clear improvement by transforming (INTERPRET THIS MORE PROBABLY)</p>
 <p>We follow this by checking the linearity assumption between Starting Price and Area.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">2</span>))</span>
-<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(STARTING_PRICE <span class="sc">~</span> AREA, <span class="at">data =</span> data, <span class="at">main =</span> <span class="st">"Without transformation"</span>)</span>
-<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">log</span>(STARTING_PRICE) <span class="sc">~</span> AREA, <span class="at">data =</span> data, <span class="at">main =</span> <span class="st">"Log of Starting Price"</span>)</span>
-<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(STARTING_PRICE <span class="sc">~</span> <span class="fu">log</span>(AREA), <span class="at">data =</span> data, <span class="at">main =</span> <span class="st">"Log of Area"</span>)</span>
-<span id="cb37-5"><a href="#cb37-5" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">log</span>(STARTING_PRICE) <span class="sc">~</span> <span class="fu">log</span>(AREA), <span class="at">data =</span> data, <span class="at">main =</span> <span class="st">"Log of Starting Price and Area"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="SDA-Assignment-2_files/figure-html/unnamed-chunk-18-1.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="SDA-Assignment-2_files/figure-html/unnamed-chunk-18-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 </div>
 <p>While the plot without any transformations shows a quite linear relationship between the starting price and area of housing units, it also displays more heteroskedasticity for larger housing units. Taking the log of both starting price and area renders a linear and homoskedastic plot, and could be a good option for further analysis and model creation.</p>
@@ -414,15 +370,6 @@ attr(,"conf.level")
 <p>We create two multiple regression models: one without any log transformations, and one using the log of the starting price and the area. We start by including all interactions between the covariates, and use stepwise backwards selection to remove abundant interactions and variables.</p>
 <p>Here is the model without transformations:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>m1 <span class="ot">&lt;-</span> <span class="fu">lm</span>(STARTING_PRICE <span class="sc">~</span> REGION <span class="sc">+</span> TYPE <span class="sc">+</span> BALCONY <span class="sc">+</span> ROOMS <span class="sc">+</span> AREA <span class="sc">+</span> </span>
-<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>          REGION<span class="sc">*</span>TYPE <span class="sc">+</span> REGION<span class="sc">*</span>BALCONY <span class="sc">+</span> REGION<span class="sc">*</span>ROOMS <span class="sc">+</span> REGION<span class="sc">*</span>AREA <span class="sc">+</span> </span>
-<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a>          TYPE<span class="sc">*</span>BALCONY <span class="sc">+</span> TYPE<span class="sc">*</span>ROOMS <span class="sc">+</span> TYPE<span class="sc">*</span>AREA <span class="sc">+</span> </span>
-<span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a>          BALCONY<span class="sc">*</span>ROOMS <span class="sc">+</span> BALCONY<span class="sc">*</span>AREA <span class="sc">+</span> </span>
-<span id="cb38-5"><a href="#cb38-5" aria-hidden="true" tabindex="-1"></a>          ROOMS<span class="sc">*</span>AREA, <span class="at">data =</span> data)</span>
-<span id="cb38-6"><a href="#cb38-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb38-7"><a href="#cb38-7" aria-hidden="true" tabindex="-1"></a>no_log_model <span class="ot">&lt;-</span> <span class="fu">step</span>(m1, <span class="at">direction =</span> <span class="st">"backward"</span>, <span class="at">trace =</span> <span class="dv">0</span>)</span>
-<span id="cb38-8"><a href="#cb38-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb38-9"><a href="#cb38-9" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(no_log_model)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 Call:
@@ -472,15 +419,6 @@ F-statistic: 43.35 on 25 and 675 DF,  p-value: &lt; 2.2e-16</code></pre>
 </div>
 <p>And here is the model using the logs of Starting Price and Area:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>m2 <span class="ot">&lt;-</span> <span class="fu">lm</span>(<span class="fu">log</span>(STARTING_PRICE) <span class="sc">~</span> REGION <span class="sc">+</span> TYPE <span class="sc">+</span> BALCONY <span class="sc">+</span> ROOMS <span class="sc">+</span> <span class="fu">log</span>(AREA) <span class="sc">+</span> </span>
-<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>          REGION<span class="sc">*</span>TYPE <span class="sc">+</span> REGION<span class="sc">*</span>BALCONY <span class="sc">+</span> REGION<span class="sc">*</span>ROOMS <span class="sc">+</span> REGION<span class="sc">*</span><span class="fu">log</span>(AREA) <span class="sc">+</span> </span>
-<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a>          TYPE<span class="sc">*</span>BALCONY <span class="sc">+</span> TYPE<span class="sc">*</span>ROOMS <span class="sc">+</span> TYPE<span class="sc">*</span><span class="fu">log</span>(AREA) <span class="sc">+</span> </span>
-<span id="cb40-4"><a href="#cb40-4" aria-hidden="true" tabindex="-1"></a>          BALCONY<span class="sc">*</span>ROOMS <span class="sc">+</span> BALCONY<span class="sc">*</span><span class="fu">log</span>(AREA) <span class="sc">+</span> </span>
-<span id="cb40-5"><a href="#cb40-5" aria-hidden="true" tabindex="-1"></a>          ROOMS<span class="sc">*</span><span class="fu">log</span>(AREA), <span class="at">data =</span> data)</span>
-<span id="cb40-6"><a href="#cb40-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb40-7"><a href="#cb40-7" aria-hidden="true" tabindex="-1"></a>log_model <span class="ot">&lt;-</span> <span class="fu">step</span>(m2, <span class="at">direction =</span> <span class="st">"backward"</span>, <span class="at">trace =</span> <span class="dv">0</span>)</span>
-<span id="cb40-8"><a href="#cb40-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb40-9"><a href="#cb40-9" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(log_model)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 Call:
@@ -539,19 +477,6 @@ F-statistic: 48.06 on 25 and 675 DF,  p-value: &lt; 2.2e-16</code></pre>
 <p><strong><em>The dataset test.xlsx that can be found in Athena (Resources/Part 1/Assignment) contains information on the region, the type of housing unit, the presence of a balcony, the number of rooms and the area of ten housing units. Use your regression model from exercise 5 to predict the starting price of these housing units (Provide a point prediction, ˆy, and an interval prediction.)</em></strong></p>
 <section id="point-prediction" class="level4">
 <h4 class="anchored" data-anchor-id="point-prediction">Point prediction</h4>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Using model without log transformation</span></span>
-<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a><span class="co">#test_1 &lt;- test</span></span>
-<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a><span class="co">#pred_1 &lt;- predict(no_log_model, newdata = test_1)</span></span>
-<span id="cb42-4"><a href="#cb42-4" aria-hidden="true" tabindex="-1"></a><span class="co">#test_1$STARTING_PRICE &lt;- pred_1</span></span>
-<span id="cb42-5"><a href="#cb42-5" aria-hidden="true" tabindex="-1"></a><span class="co">#head(test_1)</span></span>
-<span id="cb42-6"><a href="#cb42-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb42-7"><a href="#cb42-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Using model with log transformation</span></span>
-<span id="cb42-8"><a href="#cb42-8" aria-hidden="true" tabindex="-1"></a><span class="co">#test_2 &lt;- test</span></span>
-<span id="cb42-9"><a href="#cb42-9" aria-hidden="true" tabindex="-1"></a><span class="co">#pred_2 &lt;- predict(log_model, newdata = test_2)</span></span>
-<span id="cb42-10"><a href="#cb42-10" aria-hidden="true" tabindex="-1"></a><span class="co">#test_2$STARTING_PRICE &lt;- pred_2</span></span>
-<span id="cb42-11"><a href="#cb42-11" aria-hidden="true" tabindex="-1"></a><span class="co">#head(test_2)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
 </section>
 <section id="interval-prediction" class="level4">
 <h4 class="anchored" data-anchor-id="interval-prediction">Interval prediction</h4>
@@ -598,18 +523,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }
     return false;
   }
-  const clipboard = new window.ClipboardJS('.code-copy-button', {
-    text: function(trigger) {
-      const codeEl = trigger.previousElementSibling.cloneNode(true);
-      for (const childEl of codeEl.children) {
-        if (isCodeAnnotation(childEl)) {
-          childEl.remove();
-        }
-      }
-      return codeEl.innerText;
-    }
-  });
-  clipboard.on('success', function(e) {
+  const onCopySuccess = function(e) {
     // button target
     const button = e.trigger;
     // don't keep focus
@@ -641,11 +555,50 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }, 1000);
     // clear code selection
     e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
   });
-  function tippyHover(el, contentFn) {
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
     const config = {
       allowHTML: true,
-      content: contentFn,
       maxWidth: 500,
       delay: 100,
       arrow: false,
@@ -655,8 +608,17 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       interactive: true,
       interactiveBorder: 10,
       theme: 'quarto',
-      placement: 'bottom-start'
+      placement: 'bottom-start',
     };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
     window.tippy(el, config); 
   }
   const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
@@ -668,7 +630,130 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       try { href = new URL(href).hash; } catch {}
       const id = href.replace(/^#\/?/, "");
       const note = window.document.getElementById(id);
-      return note.innerHTML;
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
     });
   }
       let selectedAnnoteEl;
@@ -712,6 +797,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
             }
             div.style.top = top - 2 + "px";
             div.style.height = height + 4 + "px";
+            div.style.left = 0;
             let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
             if (gutterDiv === null) {
               gutterDiv = window.document.createElement("div");
@@ -737,6 +823,32 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
         });
         selectedAnnoteEl = undefined;
       };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
       // Attach click handler to the DT
       const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
       for (const annoteDlNode of annoteDls) {
@@ -797,6 +909,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 });
 </script>
 </div> <!-- /content -->
+
 
 
 

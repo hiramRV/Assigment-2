@@ -2,6 +2,8 @@
 title: "Home Assignment SDA: Part 2"
 author: "Caroline Birkehammar"
 format: html
+execute:
+  echo: false
 ---
 
 ## Authors
@@ -15,7 +17,7 @@ format: html
 
 #### Load data
 
-```{r}
+```{r,warning=FALSE,message=FALSE}
 library(readxl)
 library(tidyverse)
 library(ggplot2)
@@ -54,6 +56,8 @@ print(p_value)
 #### Using built-in functions
 
 ```{r}
+#| echo: true
+
 test_balcony = prop.test(n_balconies, n = n, p = 0.5, alternative = "two.sided", conf.level = 0.99)
 test_balcony$p.value
 ```
