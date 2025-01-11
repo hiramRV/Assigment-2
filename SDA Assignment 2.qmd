@@ -213,7 +213,7 @@ The confidence interval for the mean (expected) number of rooms in the region is
 
 Linear regression makes several assumptions. First, that the relationship between the independent variables and the dependent variable is linear. Second, that the error terms are independent. Third, that the error terms have a constant standard deviation. Fourth and finally, that the error terms are normaly distributed. While the latter three assumptions can only be checked after fitting the model (as they primarily relate to the error terms or the differences between the predicted and real values), the first can be checked ex-ante. Therefore, before creating and comparing different multiple regression models, we must first check that our data fits with the linearity assumption, and conduct appropriate transformations as needed.
 
-We can do this rapidly by visualizing our data, efficiently checking the relationship between rooms and starting price as well as evaluating if any transformation may be necessary.
+We can do this rapidly by visualizing our data, efficiently checking the relationship between our variables as well as evaluating if any transformation may be necessary. We begin with the relationship between Rooms and Starting Price.
 
 ```{r}
 par(mfrow = c(2, 2))
@@ -223,7 +223,7 @@ plot(STARTING_PRICE ~ log(ROOMS), data = data, main = "Log of Rooms")
 plot(log(STARTING_PRICE) ~ log(ROOMS), data = data, main = "Log of Starting Price and Rooms")
 ```
 
-No clear improvement by transforming (INTERPRET THIS MORE PROBABLY)
+The first graph shows an approximately linear relationship between Rooms and Starting Price, and there is no clear improvement by transforming. As such, we considered it unnecessary to use any transformation. 
 
 We follow this by checking the linearity assumption between Starting Price and Area.
 
