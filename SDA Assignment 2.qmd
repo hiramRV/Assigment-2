@@ -141,7 +141,7 @@ z     <- qnorm(0.95) # Two-sided, so 90% ci uses z = 0.95
 se    <- sqrt(phat*(1-phat)/n)
 ```
 
-Our sample's estimate for the proportion of apartments was $0.792$, but it is very unlikely that we have obtained exactly the same proportion of apartments in the sample as in the population. Therefore, we want to produce a confidence interval which we can be fairly sure includes the value in the population. The 90% confidence interval for a proportion is as follows: $$ \hat{p} \pm z_{0.05} \sqrt{\frac{\hat{p}(1 - \hat{p})}{n}} $$
+Our sample's estimate for the proportion of apartments was $0.792$, but it is very unlikely that we have obtained exactly the same proportion of apartments in the sample as in the population. Therefore, we want to produce a confidence interval which we can be fairly sure includes the value in the population. More formally the 90% confidence interval for a proportion indicates that on average, the interval would contain the true value in 9 out of 10 samples. It can be expressed as follows: $$ \hat{p} \pm z_{0.05} \sqrt{\frac{\hat{p}(1 - \hat{p})}{n}} $$
 
 #### Using the formula
 
