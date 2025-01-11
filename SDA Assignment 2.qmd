@@ -211,9 +211,9 @@ The confidence interval for the mean (expected) number of rooms in the region is
 
 #### Data exploration and transformation
 
-Linear regression makes certain assumptions, one of which is a linear relationship between the independent variables and the dependent variable. Before creating and comparing different multiple regression models, we must check the linearity assumption between the starting price and the numerical independent variables (rooms and area), and conduct appropriate transformations as needed.
+Linear regression makes several assumptions. First, that the relationship between the independent variables and the dependent variable is linear. Second, that the error terms are independent. Third, that the error terms have a constant standard deviation. Fourth and finally, that the error terms are normaly distributed. While the latter three assumptions can only be checked after fitting the model (as they primarily relate to the error terms or the differences between the predicted and real values), the first can be checked ex-ante. Therefore, before creating and comparing different multiple regression models, we must first check that our data fits with the linearity assumption, and conduct appropriate transformations as needed.
 
-We start by checking the relationship between rooms and starting price.
+We can do this rapidly by visualizing our data, efficiently checking the relationship between rooms and starting price as well as evaluating if any transformation may be necessary.
 
 ```{r}
 par(mfrow = c(2, 2))
