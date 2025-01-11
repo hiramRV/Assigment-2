@@ -72,7 +72,7 @@ print(paste0("p-value by hand of: ",p_value))
 
 #### Conclusion
 
-Since the p-value is less than 0.01 in both cases, the observed proportion of balconies is very unlikely under the null hypothesis, even on the 99% significance level. Therefore, we reject the null hypothesis that $p = 0.5$.
+Since the p-value is less than 0.01 in both cases, the observed proportion of balconies is very unlikely under the null hypothesis, even on the 99% significance level. Therefore, we reject the null hypothesis that $p = 0.5$. However, it must be remarked that the proportion of balconies, while not exactly half, is still likely to somewhat above one half. 
 
 # Task 2
 
