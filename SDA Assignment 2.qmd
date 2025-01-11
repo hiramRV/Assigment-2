@@ -72,7 +72,7 @@ print(paste0("p-value by hand of: ",p_value))
 
 #### Conclusion
 
-Since the p-value is less than 0.01 in both cases, the observed proportion of balconies is very unlikely under the null hypothesis, even on the 99% significance level. Therefore, we reject the null hypothesis that $p = 0.5$. However, it must be remarked that the proportion of balconies, while not exactly half, is still likely to somewhat above one half. 
+Since the p-value is less than 0.01 in both cases, the observed proportion of balconies is very unlikely under the null hypothesis, even on the 99% significance level. Therefore, we reject the null hypothesis that $p = 0.5$. However, it must be remarked that the proportion of balconies, while not exactly half, is still likely to somewhat above one half (though a one sided hypothesis test would be necesary to confirm that). 
 
 # Task 2
 
@@ -98,7 +98,9 @@ data %>%
 
 The distribution as shown by the histogram is right tailed and not normally distributed. However, because the sample size is greater than 30 we can approximate the distribution of $\bar{x}$ with a normal distribution using the central limit theorem.
 
-The null and alternative hypotheses are as follows: $$H_{0}: \mu = 0.75 \qquad H_{A}: \mu \ne 0.75$$
+The observed mean of the area in our sample (that is to say, the estimate) is equal to $79.2 m^2$ As in the previous problem, we can determine whether it is likley that the actual value is $75 m^2$ by estimating the likleyhood that we would observe $\bar{x} = 79.2 m^2$ if $\bar{X} = 75 m^2$.
+
+Therefore, our null and alternative hypotheses are as follows: $$H_{0}: \mu = 0.75 \qquad H_{A}: \mu \ne 0.75$$
 
 #### Using the formula
 
@@ -125,7 +127,7 @@ print(paste0("p-value by hand of: ",round(p_value2,3)))
 
 #### Conclusion
 
-The p-value is either 0.0046 or 0.0049 depending on the method, but since the level of significance is 0.05 we reject the null hypothesis. The interpretation is that the mean (or expected) area of the housing units is not 75 square meters.
+The p-value is either 0.0046 or 0.0049 depending on the method. Because the pre-established level of significance is 0.05 we can reject the null hypothesis. Our interpretation therefore, is that the mean (or expected) area of the housing units is not 75 square meters.
 
 # Task 3
 
