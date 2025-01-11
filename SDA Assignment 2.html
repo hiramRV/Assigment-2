@@ -185,7 +185,7 @@ window.Quarto = {
 <h4 class="anchored" data-anchor-id="using-the-formula">Using the formula</h4>
 <div class="cell">
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0</code></pre>
+<pre><code>[1] 0.002847032</code></pre>
 </div>
 </div>
 </section>
@@ -195,7 +195,7 @@ window.Quarto = {
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>test_balcony <span class="ot">=</span> <span class="fu">prop.test</span>(n_balconies, <span class="at">n =</span> n, <span class="at">p =</span> <span class="fl">0.5</span>, <span class="at">alternative =</span> <span class="st">"two.sided"</span>, <span class="at">conf.level =</span> <span class="fl">0.99</span>)</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>test_balcony<span class="sc">$</span>p.value</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 4.930043e-154</code></pre>
+<pre><code>[1] 0.003218923</code></pre>
 </div>
 </div>
 </section>
@@ -203,10 +203,10 @@ window.Quarto = {
 <h4 class="anchored" data-anchor-id="comparing-both-methods">Comparing both methods</h4>
 <div class="cell">
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] "p-value with R of: 4.93004333850282e-154"</code></pre>
+<pre><code>[1] "p-value with R of: 0.00321892272071506"</code></pre>
 </div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] "p-value by hand of: 0"</code></pre>
+<pre><code>[1] "p-value by hand of: 0.00284703196300162"</code></pre>
 </div>
 </div>
 </section>
@@ -342,8 +342,8 @@ attr(,"conf.level")
 <p><strong><em>Fit a linear regression that explains STARTING_PRICE in terms of some or all of the remaining variables (REGION, TYPE, BALCONY, ROOMS and AREA). (Tips: i. Take into account that the regression is fitted with predictive purposes; ii. Make use of appropriate numerical and graphical tools; iii. Make sure that you report the estimated regression in equation form; iv. Consider transformations and interactions between variables; v. Check the model assumptions; vi. Use appropriate criteria to decide which variables should be included in the model.)</em></strong></p>
 <section id="data-exploration-and-transformation" class="level4">
 <h4 class="anchored" data-anchor-id="data-exploration-and-transformation">Data exploration and transformation</h4>
-<p>Linear regression makes certain assumptions, one of which is a linear relationship between the independent variables and the dependent variable. Before creating and comparing different multiple regression models, we must check the linearity assumption between the starting price and the numerical independent variables (rooms and area), and conduct appropriate transformations as needed.</p>
-<p>We start by checking the relationship between rooms and starting price.</p>
+<p>Linear regression makes several assumptions. First, that the relationship between the independent variables and the dependent variable is linear. Second, that the error terms are independent. Third, that the error terms have a constant standard deviation. Fourth and finally, that the error terms are normaly distributed. While the latter three assumptions can only be checked after fitting the model (as they primarily relate to the error terms or the differences between the predicted and real values), the first can be checked ex-ante. Therefore, before creating and comparing different multiple regression models, we must first check that our data fits with the linearity assumption, and conduct appropriate transformations as needed.</p>
+<p>We can do this rapidly by visualizing our data, efficiently checking the relationship between our variables as well as evaluating if any transformation may be necessary. We begin with the relationship between Rooms and Starting Price.</p>
 <div class="cell">
 <div class="cell-output-display">
 <div>
@@ -353,7 +353,7 @@ attr(,"conf.level")
 </div>
 </div>
 </div>
-<p>No clear improvement by transforming (INTERPRET THIS MORE PROBABLY)</p>
+<p>The first graph shows an approximately linear relationship between Rooms and Starting Price, and there is no clear improvement by transforming. As such, we considered it unnecessary to use any transformation.</p>
 <p>We follow this by checking the linearity assumption between Starting Price and Area.</p>
 <div class="cell">
 <div class="cell-output-display">
@@ -364,7 +364,7 @@ attr(,"conf.level")
 </div>
 </div>
 </div>
-<p>While the plot without any transformations shows a quite linear relationship between the starting price and area of housing units, it also displays more heteroskedasticity for larger housing units. Taking the log of both starting price and area renders a linear and homoskedastic plot, and could be a good option for further analysis and model creation.</p>
+<p>While the plot without any transformations shows a fairly linear relationship between the starting price and area of housing units, it also displays more heteroskedasticity for larger housing units. Taking the log of both starting price and area renders a linear and homoskedastic plot, and could be a good option for further analysis and model creation.</p>
 </section>
 <section id="fit-multiple-regression-model" class="level4">
 <h4 class="anchored" data-anchor-id="fit-multiple-regression-model">Fit multiple regression model</h4>

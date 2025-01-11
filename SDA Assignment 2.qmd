@@ -26,8 +26,7 @@ test <- read_excel("test.xlsx")
 
 data$STARTING_PRICE <- data$STARTING_PRICE / 1000000
 data[c("REGION", "TYPE", "BALCONY")] <- lapply(data[c("REGION", "TYPE", "BALCONY")], as.factor)
-#levels(data$BALCONY) <- c("0", "1")
-#levels(test$BALCONY) <- c("0", "1")
+levels(data$BALCONY) <- c("0", "1")
 ```
 
 # Task 1
@@ -233,6 +232,10 @@ plot(STARTING_PRICE ~ AREA, data = data, main = "Without transformation")
 plot(log(STARTING_PRICE) ~ AREA, data = data, main = "Log of Starting Price")
 plot(STARTING_PRICE ~ log(AREA), data = data, main = "Log of Area")
 plot(log(STARTING_PRICE) ~ log(AREA), data = data, main = "Log of Starting Price and Area")
+
+data <- read_excel("dataset01.xlsx")
+data$STARTING_PRICE <- data$STARTING_PRICE / 1000000
+data[c("REGION", "TYPE", "BALCONY")] <- lapply(data[c("REGION", "TYPE", "BALCONY")], as.factor)
 ```
 
 While the plot without any transformations shows a fairly linear relationship between the starting price and area of housing units, it also displays more heteroskedasticity for larger housing units. Taking the log of both starting price and area renders a linear and homoskedastic plot, and could be a good option for further analysis and model creation.
