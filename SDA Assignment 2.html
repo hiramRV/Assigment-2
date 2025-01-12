@@ -163,9 +163,6 @@ window.Quarto = {
 </tr>
 </tbody>
 </table>
-<section id="load-data" class="level4">
-<h4 class="anchored" data-anchor-id="load-data">Load data</h4>
-</section>
 </section>
 <section id="task-1" class="level1">
 <h1>Task 1</h1>
@@ -177,6 +174,9 @@ window.Quarto = {
 <section id="using-the-formula" class="level4">
 <h4 class="anchored" data-anchor-id="using-the-formula">Using the formula</h4>
 <div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>z <span class="ot">&lt;-</span> (phat <span class="sc">-</span> p0) <span class="sc">/</span> se0</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>p_value <span class="ot">&lt;-</span> <span class="dv">2</span> <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> <span class="fu">pnorm</span>(<span class="fu">abs</span>(z)))</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(p_value)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 0.002847032</code></pre>
 </div>
@@ -185,21 +185,10 @@ window.Quarto = {
 <section id="using-built-in-functions" class="level4">
 <h4 class="anchored" data-anchor-id="using-built-in-functions">Using built-in functions</h4>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>test_balcony <span class="ot">=</span> <span class="fu">prop.test</span>(n_balconies, <span class="at">n =</span> n, <span class="at">p =</span> <span class="fl">0.5</span>, <span class="at">alternative =</span> <span class="st">"two.sided"</span>, <span class="at">conf.level =</span> <span class="fl">0.99</span>)</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>test_balcony<span class="sc">$</span>p.value</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>test_balcony <span class="ot">=</span> <span class="fu">prop.test</span>(n_balconies, <span class="at">n =</span> n, <span class="at">p =</span> <span class="fl">0.5</span>, <span class="at">alternative =</span> <span class="st">"two.sided"</span>, <span class="at">conf.level =</span> <span class="fl">0.99</span>)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>test_balcony<span class="sc">$</span>p.value</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 0.003218923</code></pre>
-</div>
-</div>
-</section>
-<section id="comparing-both-methods" class="level4">
-<h4 class="anchored" data-anchor-id="comparing-both-methods">Comparing both methods</h4>
-<div class="cell">
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] "p-value with R of: 0.00321892272071506"</code></pre>
-</div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] "p-value by hand of: 0.00284703196300162"</code></pre>
 </div>
 </div>
 </section>
@@ -217,7 +206,7 @@ window.Quarto = {
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="SDA-Assignment-2_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="SDA-Assignment-2_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
@@ -229,6 +218,9 @@ window.Quarto = {
 <section id="using-the-formula-1" class="level4">
 <h4 class="anchored" data-anchor-id="using-the-formula-1">Using the formula</h4>
 <div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>t_obs2  <span class="ot">&lt;-</span> (xbar <span class="sc">-</span> mu) <span class="sc">/</span> se_xbar <span class="co"># 54.47</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>p_value2 <span class="ot">&lt;-</span> <span class="dv">2</span> <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> <span class="fu">pt</span>(<span class="at">q=</span>t_obs2,<span class="at">df=</span>n<span class="dv">-1</span>))</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(p_value2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 0.004895551</code></pre>
 </div>
@@ -237,19 +229,10 @@ window.Quarto = {
 <section id="using-built-in-functions-1" class="level4">
 <h4 class="anchored" data-anchor-id="using-built-in-functions-1">Using built-in functions</h4>
 <div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>mean_test <span class="ot">&lt;-</span> <span class="fu">t.test</span>(data<span class="sc">$</span>AREA, <span class="at">mu =</span> mu, <span class="at">alternative =</span> <span class="st">"two.sided"</span>, <span class="at">conf.level =</span> <span class="fl">0.95</span>)</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>mean_test<span class="sc">$</span>p.value</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 0.004656418</code></pre>
-</div>
-</div>
-</section>
-<section id="comparing-both-metods" class="level4">
-<h4 class="anchored" data-anchor-id="comparing-both-metods">Comparing both metods</h4>
-<div class="cell">
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] "p-value with R of: 0.005"</code></pre>
-</div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] "p-value by hand of: 0.005"</code></pre>
 </div>
 </div>
 </section>
@@ -263,11 +246,18 @@ window.Quarto = {
 <p><strong><em>Estimate the proportion of apartments in the region through a 90% confidence interval.</em></strong></p>
 <section id="data-and-problem-description-2" class="level4">
 <h4 class="anchored" data-anchor-id="data-and-problem-description-2">Data and problem description</h4>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>phat  <span class="ot">&lt;-</span> <span class="fu">sum</span>(data<span class="sc">$</span>TYPE <span class="sc">==</span> <span class="st">"Apartment"</span>) <span class="sc">/</span> n</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>z     <span class="ot">&lt;-</span> <span class="fu">qnorm</span>(<span class="fl">0.95</span>) <span class="co"># Two-sided, so 90% ci uses z = 0.95</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>se    <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(phat<span class="sc">*</span>(<span class="dv">1</span><span class="sc">-</span>phat)<span class="sc">/</span>n)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
 <p>Our sample’s estimate for the proportion of apartments was <span class="math inline">\(0.792\)</span>, but it is very unlikely that we have obtained exactly the same proportion of apartments in the sample as in the population. Therefore, we want to produce a confidence interval which we can be fairly sure includes the value in the population. More formally the 90% confidence interval for a proportion indicates that on average, the interval would contain the true value in 9 out of 10 samples. It can be expressed as follows: <span class="math display">\[ \hat{p} \pm z_{0.05} \sqrt{\frac{\hat{p}(1 - \hat{p})}{n}} \]</span></p>
 </section>
 <section id="using-the-formula-2" class="level4">
 <h4 class="anchored" data-anchor-id="using-the-formula-2">Using the formula</h4>
 <div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>conf_int <span class="ot">&lt;-</span> <span class="fu">c</span>((phat <span class="sc">-</span> z<span class="sc">*</span>se), phat <span class="sc">+</span> z<span class="sc">*</span>se)</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(conf_int[<span class="dv">2</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 0.8169535</code></pre>
 </div>
@@ -276,6 +266,8 @@ window.Quarto = {
 <section id="using-the-built-in-functions" class="level4">
 <h4 class="anchored" data-anchor-id="using-the-built-in-functions">Using the built-in functions</h4>
 <div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>ci <span class="ot">&lt;-</span> <span class="fu">prop.test</span>(<span class="fu">sum</span>(data<span class="sc">$</span>TYPE <span class="sc">==</span> <span class="st">"Apartment"</span>), n, <span class="at">conf.level =</span> <span class="fl">0.9</span>)</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>ci<span class="sc">$</span>conf.int</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 0.7646586 0.8164872
 attr(,"conf.level")
@@ -283,8 +275,8 @@ attr(,"conf.level")
 </div>
 </div>
 </section>
-<section id="comparing-both-methods-1" class="level4">
-<h4 class="anchored" data-anchor-id="comparing-both-methods-1">Comparing both methods</h4>
+<section id="comparing-both-methods" class="level4">
+<h4 class="anchored" data-anchor-id="comparing-both-methods">Comparing both methods</h4>
 <div class="cell">
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] "C.I. proportion of apartments with R: [0.765, 0.816]"</code></pre>
@@ -304,12 +296,19 @@ attr(,"conf.level")
 <p><strong><em>Estimate the expected number of rooms of the housing units in the region through a 95% confidence interval.</em></strong></p>
 <section id="data-and-problem-description-3" class="level4">
 <h4 class="anchored" data-anchor-id="data-and-problem-description-3">Data and problem description</h4>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>xbar <span class="ot">&lt;-</span> <span class="fu">mean</span>(data<span class="sc">$</span>ROOMS)  <span class="co"># About 3.15</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>se   <span class="ot">&lt;-</span> <span class="fu">sd</span>(data<span class="sc">$</span>ROOMS)    <span class="co"># About 1.59</span></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>t975 <span class="ot">&lt;-</span> <span class="fu">qt</span>(<span class="fl">0.975</span>, n<span class="dv">-1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
 <p>This problem is very similar to the previous one. In this case, we want to create an interval that, if we obtained an infinite number of samples, would contain the actual value for the population 95% of the time. Additionally, since the variance is unknown, the distribution of the expected number of rooms will follow a t-distribution. Formally, the 95% confidence interval is defined as:</p>
 <p><span class="math display">\[ \bar{x} \pm t_{0.025, n-1} \frac{s_x}{\sqrt{n}} \]</span></p>
 </section>
 <section id="using-the-formulas" class="level4">
 <h4 class="anchored" data-anchor-id="using-the-formulas">Using the formulas</h4>
 <div class="cell">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>conf_int <span class="ot">&lt;-</span> <span class="fu">c</span>((xbar <span class="sc">-</span> t975 <span class="sc">*</span> se <span class="sc">/</span> <span class="fu">sqrt</span>(n)), xbar <span class="sc">+</span> t975 <span class="sc">*</span> se <span class="sc">/</span> <span class="fu">sqrt</span>(n))</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(conf_int)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 3.033163 3.269262</code></pre>
 </div>
@@ -318,6 +317,8 @@ attr(,"conf.level")
 <section id="using-the-built-in-functions-1" class="level4">
 <h4 class="anchored" data-anchor-id="using-the-built-in-functions-1">Using the built-in functions</h4>
 <div class="cell">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>ci <span class="ot">&lt;-</span> <span class="fu">t.test</span>(data<span class="sc">$</span>ROOMS, <span class="at">conf.level =</span> <span class="fl">0.95</span>)</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>ci<span class="sc">$</span>conf.int</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 3.033163 3.269262
 attr(,"conf.level")
@@ -332,7 +333,7 @@ attr(,"conf.level")
 </section>
 <section id="task-5" class="level1">
 <h1>Task 5</h1>
-<p><strong><em>Fit a linear regression that explains STARTING_PRICE in terms of some or all of the remaining variables (REGION, TYPE, BALCONY, ROOMS and AREA). (Tips: i. Take into account that the regression is fitted with predictive purposes; ii. Make use of appropriate numerical and graphical tools; iii. Make sure that you report the estimated regression in equation form; iv. Consider transformations and interactions between variables; v. Check the model assumptions; vi. Use appropriate criteria to decide which variables should be included in the model.)</em></strong></p>
+<p><strong><em>Fit a linear regression that explains STARTING_PRICE in terms of some or all of the remaining variables.</em></strong></p>
 <section id="data-exploration-and-transformation" class="level4">
 <h4 class="anchored" data-anchor-id="data-exploration-and-transformation">Data exploration and transformation</h4>
 <p>Linear regressions enable us to make predictions for a variable given a different set of variables. In this case, we can predict the Starting Price of the housing units as a function of Region, Type, Balcony, Rooms and Area as well as interactions and transformations among them. While this is very powerful, linear regression models make several assumptions that must be met if we want to use it. First, that the relationship between the independent variables and the dependent variable is linear. Second, that the error terms are independent. Third, that the error terms have a constant standard deviation. Fourth and finally, that the error terms are normaly distributed. While the latter three assumptions can only be checked after fitting the model (as they primarily relate to the error terms or the differences between the predicted and real values), the first can be checked ex-ante. Therefore, before creating and comparing different multiple regression models, we must first check that our data fits with the linearity assumption, and conduct appropriate transformations as needed.</p>
@@ -341,7 +342,7 @@ attr(,"conf.level")
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="SDA-Assignment-2_files/figure-html/unnamed-chunk-17-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="SDA-Assignment-2_files/figure-html/unnamed-chunk-15-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
@@ -352,7 +353,7 @@ attr(,"conf.level")
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="SDA-Assignment-2_files/figure-html/unnamed-chunk-18-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="SDA-Assignment-2_files/figure-html/unnamed-chunk-16-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
@@ -364,150 +365,35 @@ attr(,"conf.level")
 <h4 class="anchored" data-anchor-id="fit-multiple-regression-model">Fit multiple regression model</h4>
 <p>We create two multiple regression models: one without any log transformations, and one using the log of the starting price and the area. We start by including all interactions between the covariates, and use stepwise backwards selection to remove abundant interactions and variables.</p>
 <p>Here is the model without transformations:</p>
-<div class="cell">
-<div class="cell-output cell-output-stdout">
-<pre><code>
-Call:
-lm(formula = STARTING_PRICE ~ REGION + TYPE + AREA, data = data)
-
-Residuals:
-    Min      1Q  Median      3Q     Max 
--7.8886 -1.2049 -0.0976  0.8793 10.2498 
-
-Coefficients:
-                Estimate Std. Error t value Pr(&gt;|t|)    
-(Intercept)     -0.45938    0.28402  -1.617    0.106    
-REGIONNorthwest  0.17195    0.30746   0.559    0.576    
-REGIONSoutheast -1.22690    0.30834  -3.979 7.65e-05 ***
-REGIONStockholm  1.57958    0.22773   6.936 9.25e-12 ***
-REGIONWest      -1.64916    0.29469  -5.596 3.16e-08 ***
-TYPETerrace     -1.52942    0.34653  -4.414 1.18e-05 ***
-TYPEVilla        0.12590    0.31799   0.396    0.692    
-AREA             0.05783    0.00280  20.652  &lt; 2e-16 ***
----
-Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
-
-Residual standard error: 2.039 on 693 degrees of freedom
-Multiple R-squared:  0.5489,    Adjusted R-squared:  0.5443 
-F-statistic: 120.5 on 7 and 693 DF,  p-value: &lt; 2.2e-16</code></pre>
-</div>
-</div>
-<div class="cell">
-<div class="cell-output cell-output-stdout">
-<pre><code>
-Call:
-lm(formula = STARTING_PRICE ~ REGION + TYPE + BALCONY + ROOMS + 
-    AREA + REGION:TYPE + REGION:AREA + TYPE:ROOMS + TYPE:AREA, 
-    data = data)
-
-Residuals:
-    Min      1Q  Median      3Q     Max 
--7.9773 -1.0625  0.0256  0.9168  9.3701 
-
-Coefficients:
-                             Estimate Std. Error t value Pr(&gt;|t|)    
-(Intercept)                 -1.420897   0.554455  -2.563  0.01060 *  
-REGIONNorthwest              2.458956   0.947598   2.595  0.00967 ** 
-REGIONSoutheast              1.245424   0.931261   1.337  0.18156    
-REGIONStockholm              1.706318   0.584951   2.917  0.00365 ** 
-REGIONWest                   0.774388   0.706154   1.097  0.27320    
-TYPETerrace                  2.616140   2.663368   0.982  0.32632    
-TYPEVilla                    1.519649   1.075489   1.413  0.15812    
-BALCONYYes                  -0.291673   0.173814  -1.678  0.09380 .  
-ROOMS                       -0.596187   0.181092  -3.292  0.00105 ** 
-AREA                         0.091316   0.010144   9.002  &lt; 2e-16 ***
-REGIONNorthwest:TYPETerrace  0.904760   1.289551   0.702  0.48317    
-REGIONSoutheast:TYPETerrace  1.412709   1.160399   1.217  0.22386    
-REGIONStockholm:TYPETerrace -2.849867   0.965599  -2.951  0.00327 ** 
-REGIONWest:TYPETerrace       0.791002   1.041856   0.759  0.44798    
-REGIONNorthwest:TYPEVilla    0.099325   1.459590   0.068  0.94577    
-REGIONSoutheast:TYPEVilla    0.882339   1.023590   0.862  0.38899    
-REGIONStockholm:TYPEVilla   -2.885108   0.879207  -3.281  0.00109 ** 
-REGIONWest:TYPEVilla        -0.709722   0.929726  -0.763  0.44551    
-REGIONNorthwest:AREA        -0.026664   0.012845  -2.076  0.03828 *  
-REGIONSoutheast:AREA        -0.028886   0.011539  -2.503  0.01254 *  
-REGIONStockholm:AREA         0.008226   0.007718   1.066  0.28693    
-REGIONWest:AREA             -0.025975   0.009202  -2.823  0.00490 ** 
-TYPETerrace:ROOMS            0.754882   0.541815   1.393  0.16400    
-TYPEVilla:ROOMS              1.139744   0.271156   4.203 2.98e-05 ***
-TYPETerrace:AREA            -0.065207   0.025638  -2.543  0.01120 *  
-TYPEVilla:AREA              -0.051528   0.010899  -4.728 2.76e-06 ***
----
-Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
-
-Residual standard error: 1.905 on 675 degrees of freedom
-Multiple R-squared:  0.6162,    Adjusted R-squared:  0.602 
-F-statistic: 43.35 on 25 and 675 DF,  p-value: &lt; 2.2e-16</code></pre>
-</div>
-</div>
 <p>And here is the model using the logs of Starting Price and Area:</p>
 <div class="cell">
-<div class="cell-output cell-output-stdout">
-<pre><code>
-Call:
-lm(formula = log(STARTING_PRICE) ~ REGION + TYPE + BALCONY + 
-    ROOMS + log(AREA) + REGION:TYPE + REGION:ROOMS + REGION:log(AREA), 
-    data = data)
-
-Residuals:
-     Min       1Q   Median       3Q      Max 
--1.24107 -0.22755  0.01344  0.24861  0.93169 
-
-Coefficients:
-                            Estimate Std. Error t value Pr(&gt;|t|)    
-(Intercept)                 -1.93813    0.49592  -3.908 0.000102 ***
-REGIONNorthwest              1.17211    0.92282   1.270 0.204469    
-REGIONSoutheast              3.00270    1.17878   2.547 0.011077 *  
-REGIONStockholm             -0.14326    0.57441  -0.249 0.803130    
-REGIONWest                   0.92313    0.76985   1.199 0.230904    
-TYPETerrace                 -0.07885    0.14215  -0.555 0.579300    
-TYPEVilla                    0.26554    0.11937   2.225 0.026442 *  
-BALCONYYes                  -0.05732    0.03250  -1.764 0.078205 .  
-ROOMS                        0.06146    0.04105   1.497 0.134811    
-log(AREA)                    0.68630    0.13741   4.994 7.52e-07 ***
-REGIONNorthwest:TYPETerrace  0.01432    0.22550   0.064 0.949375    
-REGIONSoutheast:TYPETerrace  0.33760    0.21309   1.584 0.113588    
-REGIONStockholm:TYPETerrace -0.42219    0.18033  -2.341 0.019514 *  
-REGIONWest:TYPETerrace       0.19281    0.19277   1.000 0.317561    
-REGIONNorthwest:TYPEVilla   -0.26594    0.29074  -0.915 0.360681    
-REGIONSoutheast:TYPEVilla    0.25901    0.18128   1.429 0.153520    
-REGIONStockholm:TYPEVilla   -0.31517    0.16432  -1.918 0.055524 .  
-REGIONWest:TYPEVilla        -0.07374    0.18372  -0.401 0.688268    
-REGIONNorthwest:ROOMS        0.05568    0.08797   0.633 0.526982    
-REGIONSoutheast:ROOMS        0.18811    0.08790   2.140 0.032721 *  
-REGIONStockholm:ROOMS       -0.06310    0.05448  -1.158 0.247194    
-REGIONWest:ROOMS             0.10311    0.07016   1.470 0.142118    
-REGIONNorthwest:log(AREA)   -0.26979    0.26370  -1.023 0.306634    
-REGIONSoutheast:log(AREA)   -0.90153    0.32327  -2.789 0.005439 ** 
-REGIONStockholm:log(AREA)    0.18733    0.16389   1.143 0.253418    
-REGIONWest:log(AREA)        -0.38626    0.21601  -1.788 0.074199 .  
----
-Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
-
-Residual standard error: 0.3526 on 675 degrees of freedom
-Multiple R-squared:  0.6403,    Adjusted R-squared:  0.627 
-F-statistic: 48.06 on 25 and 675 DF,  p-value: &lt; 2.2e-16</code></pre>
+<div class="cell-output cell-output-stderr">
+<pre><code>`geom_smooth()` using method = 'loess' and formula = 'y ~ x'</code></pre>
 </div>
-</div>
-<div class="cell">
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="SDA-Assignment-2_files/figure-html/unnamed-chunk-22-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="SDA-Assignment-2_files/figure-html/unnamed-chunk-20-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
+<div class="cell-output cell-output-stderr">
+<pre><code>`geom_smooth()` using method = 'loess' and formula = 'y ~ x'</code></pre>
+</div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="SDA-Assignment-2_files/figure-html/unnamed-chunk-22-2.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="SDA-Assignment-2_files/figure-html/unnamed-chunk-20-2.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
+<div class="cell-output cell-output-stderr">
+<pre><code>`geom_smooth()` using method = 'loess' and formula = 'y ~ x'</code></pre>
+</div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="SDA-Assignment-2_files/figure-html/unnamed-chunk-22-3.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="SDA-Assignment-2_files/figure-html/unnamed-chunk-20-3.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
@@ -520,14 +406,14 @@ F-statistic: 48.06 on 25 and 675 DF,  p-value: &lt; 2.2e-16</code></pre>
 </section>
 <section id="task-6" class="level1">
 <h1>Task 6</h1>
-<p><strong><em>The dataset test.xlsx that can be found in Athena (Resources/Part 1/Assignment) contains information on the region, the type of housing unit, the presence of a balcony, the number of rooms and the area of ten housing units. Use your regression model from exercise 5 to predict the starting price of these housing units (Provide a point prediction, ˆy, and an interval prediction.)</em></strong></p>
+<p><strong><em>Use your regression model from exercise 5 to predict the starting price of these housing units</em></strong></p>
 <section id="point-prediction" class="level4">
 <h4 class="anchored" data-anchor-id="point-prediction">Point prediction</h4>
 <div class="cell">
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="SDA-Assignment-2_files/figure-html/unnamed-chunk-23-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="SDA-Assignment-2_files/figure-html/unnamed-chunk-21-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
