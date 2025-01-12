@@ -248,13 +248,22 @@ We create two multiple regression models: one without any log transformations, a
 Here is the model without transformations:
 
 ```{r}
-m1 <- lm(STARTING_PRICE ~ REGION + TYPE + BALCONY + ROOMS + AREA + 
+m1 <- lm(STARTING_PRICE ~ REGION + TYPE + BALCONY + ROOMS + AREA, data = data)
+
+base_model <- step(m1, direction = "backward", trace = 0)
+
+summary(base_model)
+```
+
+```{r}
+
+m2 <- lm(STARTING_PRICE ~ REGION + TYPE + BALCONY + ROOMS + AREA + 
           REGION*TYPE + REGION*BALCONY + REGION*ROOMS + REGION*AREA + 
           TYPE*BALCONY + TYPE*ROOMS + TYPE*AREA + 
           BALCONY*ROOMS + BALCONY*AREA + 
           ROOMS*AREA, data = data)
 
-no_log_model <- step(m1, direction = "backward", trace = 0)
+no_log_model <- step(m2, direction = "backward", trace = 0)
 
 summary(no_log_model)
 ```
@@ -262,21 +271,15 @@ summary(no_log_model)
 And here is the model using the logs of Starting Price and Area:
 
 ```{r}
-m2 <- lm(log(STARTING_PRICE) ~ REGION + TYPE + BALCONY + ROOMS + log(AREA) + 
+m3 <- lm(log(STARTING_PRICE) ~ REGION + TYPE + BALCONY + ROOMS + log(AREA) + 
           REGION*TYPE + REGION*BALCONY + REGION*ROOMS + REGION*log(AREA) + 
           TYPE*BALCONY + TYPE*ROOMS + TYPE*log(AREA) + 
           BALCONY*ROOMS + BALCONY*log(AREA) + 
           ROOMS*log(AREA), data = data)
 
-log_model <- step(m2, direction = "backward", trace = 0)
+log_model <- step(m3, direction = "backward", trace = 0)
 
 summary(log_model)
-```
-
-A third model without rooms. 
-
-```{r}
-m3 = lm(STARTING_PRICE~REGION+TYPE+AREA+BALCONY, data=data) #No rooms
 ```
 
 
