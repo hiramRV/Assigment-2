@@ -198,10 +198,11 @@ The confidence interval for the mean (expected) number of rooms in the region is
 
 #### Data exploration and transformation
 
-Linear regressions enable us to make predictions for a variable given a different set of variables. In this case, we can predict the Starting Price of the housing units as a function of Region, Type, Balcony, Rooms and Area as well as interactions and transformations among them. While this is very powerful, linear regression models make several assumptions that must be met if we want to use it. First, that the relationship between the independent variables and the dependent variable is linear. Second, that the error terms are independent. Third, that the error terms have a constant standard deviation. Fourth and finally, that the error terms are normaly distributed. While the latter three assumptions can only be checked after fitting the model (as they primarily relate to the error terms or the differences between the predicted and real values), the first can be checked ex-ante. Therefore, before creating and comparing different multiple regression models, we must first check that our data fits with the linearity assumption, and conduct appropriate transformations as needed.
+Linear regressions enable us to make predictions for a variable given a different set of variables. In this case, we predict the Starting Price of the housing units as a function of Region, Type, Balcony, Rooms and Area as well as interactions and transformations among them. However, linear regression models make several assumptions that must be met when estimating a model using OLS. First, the relationship between the independent variables and the dependent variable must be linear. Second, the error terms must be independent. Third, the error terms should be homoskedastic, meaning that they have a constant variance independent of the values of the explanatory variables. Fourth and finally, the error terms should be normally distributed.
 
-We can do this rapidly by visualizing our data, efficiently checking the relationship between our variables as well as evaluating if any transformation may be necessary. We begin with the relationship between Rooms and Starting Price.
+Our data have three categorical independent variables that are not subject to these assumptions: Region, Type and Balcony. The other two independent variables (Rooms and Area) as well as the dependent variable (Starting Price) are numerical, and we must check if the OLS assumptions hold for these. While the assumptions about the error terms are checked after fitting the model, the linearity assumption can be checked ex-ante. We do this by visualizing our data in scatterplots, evaluating if any transformation may be necessary to make the relationship between the dependent and independent variables linear.
 
+We begin by examining the relationship between Rooms and Starting Price.
 ```{r}
 par(mfrow = c(2, 2))
 plot(STARTING_PRICE ~ ROOMS, data = data, main = "Without transformation")
@@ -209,11 +210,9 @@ plot(log(STARTING_PRICE) ~ ROOMS, data = data, main = "Log of Starting Price")
 plot(STARTING_PRICE ~ log(ROOMS), data = data, main = "Log of Rooms")
 plot(log(STARTING_PRICE) ~ log(ROOMS), data = data, main = "Log of Starting Price and Rooms")
 ```
-
-The first graph shows an approximately linear relationship between Rooms and Starting Price, and there is no clear improvement by transforming. As such, we considered it unnecessary to use any transformation. 
+The first plot shows an approximately linear relationship between Rooms and Starting Price, and there is no clear improvement by transforming the variables. As such, we considered it unnecessary to use any transformation. 
 
 We follow this by checking the linearity assumption between Starting Price and Area.
-
 ```{r}
 par(mfrow = c(2, 2))
 plot(STARTING_PRICE ~ AREA, data = data, main = "Without transformation")
@@ -226,23 +225,25 @@ data$STARTING_PRICE <- data$STARTING_PRICE / 1000000
 data[c("REGION", "TYPE", "BALCONY")] <- lapply(data[c("REGION", "TYPE", "BALCONY")], as.factor)
 ```
 
-While the plot without any transformations shows a fairly linear relationship between the starting price and area of housing units, it also displays more heteroskedasticity for larger housing units. Taking the log of both starting price and area renders a linear and homoskedastic plot, and could be a good option for further analysis and model creation.
+Both the plot without any transformations and the plot where logs have been taken on both Starting Price and Area show a fairly linear relationship. Notably, the first plot is quite cone-shaped, indicating the presence of heteroskedasticity in the residuals. In contrast, the residuals in the plot of the transformed variables looks more even and homoskedastic.
 
-We did not repeat this procedure for Balcony, Type and Region as these variables are categorical and non-ordinal.
+From the plots of the numerical variables, we see that the linearity assumption holds for the unchanged data. However, as we observe that there seems to be less heteroskedasticity in the plot  using logs of Starting Price and Area, we will create an additional model using logs for these variables and evaluate if the OLS assumptions regarding residuals hold better for that model than the one without log transformations.
 
 #### Fit multiple regression model
 
-We create two multiple regression models: one without any log transformations, and one using the log of the starting price and the area. We start by including all interactions between the covariates, and use stepwise backwards selection to remove abundant interactions and variables.
+We create three multiple regression models: one without log transformations or interactions, one without any log transformations but with interactions, and one using both log transformations and interaction terms.
 
-Here is the model without transformations:
+To choose which predictors to include in the fitting of each model, we use a stepwise backward selection algorithm. The algorithm starts with a model including all predictors, and then iteratively removes the least significant predictor by comparing the AIC (Akaike's Information Criterion) of the models, until there is no significant improvement to be made anymore. The choice of variable selection method we make in this task is fairly arbitrary; backwards stepwise selection is a widely used manner of selecting variables, but other methods (such as forward or pairwise selection, or completely different algorithms) would probably yield slightly different models. However, comparing different variable selection methods is beyond the scope of this report, and we settle for the stepwise backwards elimination algorithm here.
 
+The first model (without transformations or interactions) is as follows:
 ```{r}
 m1 <- lm(STARTING_PRICE ~ REGION + TYPE + BALCONY + ROOMS + AREA, data = data)
 
 base_model <- step(m1, direction = "backward", trace = 0)
-#summary(base_model)
+summary(base_model)
 ```
 
+The second model (including interactions) is as follows:
 ```{r}
 
 m2 <- lm(STARTING_PRICE ~ REGION + TYPE + BALCONY + ROOMS + AREA + 
@@ -252,11 +253,10 @@ m2 <- lm(STARTING_PRICE ~ REGION + TYPE + BALCONY + ROOMS + AREA +
           ROOMS*AREA, data = data)
 
 no_log_model <- step(m2, direction = "backward", trace = 0)
-#summary(no_log_model)
+summary(no_log_model)
 ```
 
-And here is the model using the logs of Starting Price and Area:
-
+The third model (including interactions and logs of Starting Price and Area) is as follows:
 ```{r}
 m3 <- lm(log(STARTING_PRICE) ~ REGION + TYPE + BALCONY + ROOMS + log(AREA) + 
           REGION*TYPE + REGION*BALCONY + REGION*ROOMS + REGION*log(AREA) + 
@@ -268,7 +268,7 @@ log_model <- step(m3, direction = "backward", trace = 0)
 summary(log_model)
 ```
 
-
+Below, we examine the remaining OLS assumptions regarding the residuals for the three models.
 ```{r}
 #Graphs
 model1_aug <- augment(base_model)
@@ -290,8 +290,8 @@ obj3 <-
   ggplot(aes(sample = .std.resid)) +
   geom_qq_line(color = "salmon") +
   geom_qq(color = "cyan4") +
-  labs(x = "Cuantiles teoricos",
-       y = "Cuantiles observados")
+  labs(x = "Theoretical quantiles",
+       y = "Observed quantiles")
 
 plot_grid(obj1, obj2, obj3)
 
@@ -314,8 +314,8 @@ obj3 <-
   ggplot(aes(sample = .std.resid)) +
   geom_qq_line(color = "salmon") +
   geom_qq(color = "cyan4") +
-  labs(x = "Cuantiles teoricos",
-       y = "Cuantiles observados")
+  labs(x = "Theoretical quantiles",
+       y = "Observed quantiles")
 
 plot_grid(obj1, obj2, obj3)
 
@@ -338,8 +338,8 @@ obj3 <-
   ggplot(aes(sample = .std.resid)) +
   geom_qq_line(color = "salmon") +
   geom_qq(color = "cyan4") +
-  labs(x = "Cuantiles teoricos",
-       y = "Cuantiles observados")
+  labs(x = "Theoretical quantiles",
+       y = "Observed quantiles")
 
 plot_grid(obj1, obj2, obj3)
 
@@ -348,11 +348,21 @@ plot_grid(obj1, obj2, obj3)
 
 #### Conclusion and selected multiple regression model
 
-(Pablos part to motivate selection of model)
+(Pablo writes about why we select the third model (Adj R-squared, OLS assumptions of residuals))
 
-The best multiple regression model is as follows:
+The best model is written out below. The reference group is apartments in region Northeast without a balcony. This model includes all variables that are significant on a 10% level, and interactions are marked by a colon symbol.
 $$
-
+\begin{align}
+  \text{log}(\mathit{Starting\ Price}) &= -1.938 \\
+  &\quad + 3.003 \times RegionSoutheast -0.143 \times RegionStockholm + 0.923 \times RegionWest\\
+  &\quad -0.079 \times TypeTerrace + 0.266 \times TypeVilla\\
+  &\quad -0.057 \times Balcony \\
+  &\quad +0.061 \times Rooms\\
+  &\quad +0.686 \times \text{log}(\mathit{Area})\\
+  &\quad -0.422 \times RegionStockholm:TypeTerrace -0.315 \times RegionStockholm:TypeVilla\\
+  &\quad +0.188 \times RegionSoutheast:Rooms\\
+  &\quad -0.902 \times RegionSoutheast:\text{log}(\mathit{Area}) -0.386 \times RegionWest:\text{log}(\mathit{Area})\\
+\end{align}
 $$
 
 # Task 6
@@ -367,18 +377,19 @@ pred2 <-predict(no_log_model,test,interval = "prediction", level = 0.90)
 pred3 <-exp(predict(log_model,test,interval = "prediction", level = 0.90))
 
 ```
-Prediction ($\hat{y}$) for every new value using model 3.
+These are the predictions $\hat{y}$ for each new observation using our multiple regression model.
 ```{r}
 pred3[,1]
 ```
 
-Prediction Intervals with 90% confidence for each new value.
+These are the prediction intervals for the observations.
 ```{r}
 pred3[,2:3]
 ```
 
 #### Conclusion
 
+Pablo writes
 
 #### Extra
 
@@ -387,15 +398,15 @@ pred3[,2:3]
 model1Frame <- data.frame(Variable = rownames(pred1),
                           Coefficient = pred1[,1],
                           SE=abs(pred1[,1]-pred1[,3]),
-                          modelName = "Model 1")
+                          modelName = "No interaction or logs")
 model2Frame <- data.frame(Variable = rownames(pred2),
                           Coefficient = pred2[,1],
                           SE=abs(pred2[,1]-pred2[,3]),
-                          modelName = "Model 2")
+                          modelName = "With interactions")
 model3Frame <- data.frame(Variable = rownames(pred3),
                           Coefficient = pred3[,1],
                           SE=abs(pred3[,1]-pred3[,3]),
-                          modelName = "Model 3")
+                          modelName = "With interactions and logs")
 # Combine these data.frames
 allModelFrame <- data.frame(rbind(model1Frame, model2Frame, model3Frame))  # etc.
 
