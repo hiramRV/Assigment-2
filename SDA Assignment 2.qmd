@@ -14,7 +14,6 @@ execute:
 | Pablo Paras Ochoa          | pablo.paras.ochoa\@gmail.com    | 19980810-0433   |
 | Faezeh Karegar Hojatabadi  | faezeh.karegar\@gmail.com       | 19890903-1646   |
 
-#### Load data
 
 ```{r,warning=FALSE,message=FALSE}
 library(readxl)
@@ -47,6 +46,7 @@ The observed proportion of balconies in our sample ($\hat{p}$) is equal to $0.55
 #### Using the formula
 
 ```{r}
+#| echo: true
 z <- (phat - p0) / se0
 p_value <- 2 * (1 - pnorm(abs(z)))
 print(p_value)
@@ -56,18 +56,10 @@ print(p_value)
 
 ```{r}
 #| echo: true
-
 test_balcony = prop.test(n_balconies, n = n, p = 0.5, alternative = "two.sided", conf.level = 0.99)
 test_balcony$p.value
 ```
 
-#### Comparing both methods
-
-```{r}
-print(paste0("p-value with R of: ",test_balcony$p.value)) 
-print(paste0("p-value by hand of: ",p_value)) 
-
-```
 
 #### Conclusion
 
@@ -251,8 +243,7 @@ Here is the model without transformations:
 m1 <- lm(STARTING_PRICE ~ REGION + TYPE + BALCONY + ROOMS + AREA, data = data)
 
 base_model <- step(m1, direction = "backward", trace = 0)
-
-summary(base_model)
+#summary(base_model)
 ```
 
 ```{r}
@@ -264,8 +255,7 @@ m2 <- lm(STARTING_PRICE ~ REGION + TYPE + BALCONY + ROOMS + AREA +
           ROOMS*AREA, data = data)
 
 no_log_model <- step(m2, direction = "backward", trace = 0)
-
-summary(no_log_model)
+#summary(no_log_model)
 ```
 
 And here is the model using the logs of Starting Price and Area:
@@ -276,10 +266,8 @@ m3 <- lm(log(STARTING_PRICE) ~ REGION + TYPE + BALCONY + ROOMS + log(AREA) +
           TYPE*BALCONY + TYPE*ROOMS + TYPE*log(AREA) + 
           BALCONY*ROOMS + BALCONY*log(AREA) + 
           ROOMS*log(AREA), data = data)
-
 log_model <- step(m3, direction = "backward", trace = 0)
-
-summary(log_model)
+#summary(log_model)
 ```
 ```{r}
 #Graphs
@@ -305,9 +293,9 @@ The adjusted R-squared is greater for the model using logs.
 #### Point prediction
 
 ```{r}
-pred1 <- predict(m1,test,interval = "prediction", level = 0.90)
-pred2 <-exp(predict(m2,test,interval = "prediction", level = 0.90))
-pred3 <-predict(m3,test,interval = "prediction", level = 0.90)
+pred1 <- predict(base_model,test,interval = "prediction", level = 0.90)
+pred2 <-predict(no_log_model,test,interval = "prediction", level = 0.90)
+pred3 <-exp(predict(log_model,test,interval = "prediction", level = 0.90))
 
 
 model1Frame <- data.frame(Variable = rownames(pred1),
