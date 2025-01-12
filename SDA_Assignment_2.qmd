@@ -379,7 +379,9 @@ pred2 <-predict(no_log_model,test,interval = "prediction", level = 0.90)
 pred3 <-exp(predict(log_model,test,interval = "prediction", level = 0.90))
 
 ```
+
 These are the predictions $\hat{y}$ for each new observation using our multiple regression model.
+
 ```{r}
 pred3[,1]
 ```
@@ -391,8 +393,7 @@ pred3[,2:3]
 
 #### Conclusion
 
-Pablo writes
-
+Using the more complicated of the three models, we were able to predict 
 #### Extra
 
 ```{r}
