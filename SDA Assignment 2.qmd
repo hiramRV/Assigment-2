@@ -1,6 +1,5 @@
 ---
 title: "Home Assignment SDA: Part 2"
-author: "Caroline Birkehammar"
 format: html
 execute:
   echo: false
@@ -12,7 +11,7 @@ execute:
 |:-----------------------|--------------------------|----------------------|
 | Caroline Birkehammar       | caroline.birkehammar\@gmail.com | 19971118-5562   |
 | Steven Hiram Rubio Vasquez | stevenrv97\@gmail.com           | 19970222-8793   |
-| Pablo Paras Ochoa          | pablo.paras.ochoa\@gmail.com    | 10/08/1998      |
+| Pablo Paras Ochoa          | pablo.paras.ochoa\@gmail.com    | 19980810-0433   |
 | Faezeh Karegar Hojatabadi  | faezeh.karegar\@gmail.com       | 19890903-1646   |
 
 #### Load data
