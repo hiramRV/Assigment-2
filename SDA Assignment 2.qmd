@@ -19,6 +19,8 @@ execute:
 library(readxl)
 library(tidyverse)
 library(ggplot2)
+library(cowplot)
+library(broom)
 data <- read_excel("dataset01.xlsx")
 test <- read_excel("test.xlsx")
 
@@ -266,19 +268,86 @@ m3 <- lm(log(STARTING_PRICE) ~ REGION + TYPE + BALCONY + ROOMS + log(AREA) +
           TYPE*BALCONY + TYPE*ROOMS + TYPE*log(AREA) + 
           BALCONY*ROOMS + BALCONY*log(AREA) + 
           ROOMS*log(AREA), data = data)
+
 log_model <- step(m3, direction = "backward", trace = 0)
 #summary(log_model)
 ```
+
+
 ```{r}
 #Graphs
-plot(fitted(base_model), resid(base_model))
-abline(0,0)
+model1_aug <- augment(base_model)
 
-plot(fitted(no_log_model), resid(no_log_model))
-abline(0,0)
+obj1 <-
+  model1_aug %>%
+  ggplot(aes(.std.resid)) +
+  geom_density() 
 
-plot(fitted(log_model), resid(log_model))
-abline(0,0)
+obj2 <-
+  model1_aug %>% 
+  ggplot(aes(x = .fitted, y = .std.resid))+
+  geom_point(color = "cyan4") + 
+  geom_hline(yintercept = 0, color = "salmon") +
+  geom_smooth(se = F)
+
+obj3 <-
+  model1_aug %>% 
+  ggplot(aes(sample = .std.resid)) +
+  geom_qq_line(color = "salmon") +
+  geom_qq(color = "cyan4") +
+  labs(x = "Cuantiles teoricos",
+       y = "Cuantiles observados")
+
+plot_grid(obj1, obj2, obj3)
+
+model2_aug <- augment(no_log_model)
+
+obj1 <-
+  model2_aug %>%
+  ggplot(aes(.std.resid)) +
+  geom_density() 
+
+obj2 <-
+  model2_aug %>% 
+  ggplot(aes(x = .fitted, y = .std.resid))+
+  geom_point(color = "cyan4") + 
+  geom_hline(yintercept = 0, color = "salmon") +
+  geom_smooth(se = F)
+
+obj3 <-
+  model2_aug %>% 
+  ggplot(aes(sample = .std.resid)) +
+  geom_qq_line(color = "salmon") +
+  geom_qq(color = "cyan4") +
+  labs(x = "Cuantiles teoricos",
+       y = "Cuantiles observados")
+
+plot_grid(obj1, obj2, obj3)
+
+model3_aug <- augment(log_model)
+
+obj1 <-
+  model3_aug %>%
+  ggplot(aes(.std.resid)) +
+  geom_density() 
+
+obj2 <-
+  model3_aug %>% 
+  ggplot(aes(x = .fitted, y = .std.resid))+
+  geom_point(color = "cyan4") + 
+  geom_hline(yintercept = 0, color = "salmon") +
+  geom_smooth(se = F)
+
+obj3 <-
+  model3_aug %>% 
+  ggplot(aes(sample = .std.resid)) +
+  geom_qq_line(color = "salmon") +
+  geom_qq(color = "cyan4") +
+  labs(x = "Cuantiles teoricos",
+       y = "Cuantiles observados")
+
+plot_grid(obj1, obj2, obj3)
+
 ```
 
 
