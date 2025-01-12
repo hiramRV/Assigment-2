@@ -5,6 +5,8 @@ execute:
   echo: false
 ---
 
+
+
 ## Authors
 
 | Name                       | Email                           | Personal number |
@@ -13,6 +15,8 @@ execute:
 | Steven Hiram Rubio Vasquez | stevenrv97\@gmail.com           | 19970222-8793   |
 | Pablo Paras Ochoa          | pablo.paras.ochoa\@gmail.com    | 19980810-0433   |
 | Faezeh Karegar Hojatabadi  | faezeh.karegar\@gmail.com       | 19890903-1646   |
+
+
 
 
 ```{r,warning=FALSE,message=FALSE}
@@ -29,11 +33,15 @@ data[c("REGION", "TYPE", "BALCONY")] <- lapply(data[c("REGION", "TYPE", "BALCONY
 levels(data$BALCONY) <- c("0", "1")
 ```
 
+
+
 # Task 1
 
 ***Using a significance level of 1%, test the hypothesis that half of the housing units in the region have a balcony.***
 
 #### Data and problem description
+
+
 
 ```{r}
 n_balconies <- sum(data$BALCONY == 1) # 390
@@ -43,9 +51,13 @@ p0          <- 0.5
 se0         <- sqrt(p0 * (1 - p0) / n)
 ```
 
+
+
 The observed proportion of balconies in our sample ($\hat{p}$) is equal to $0.55635$, but this is not enough to conclude whether or not half the housing units in the region have a balcony. What we want to know is actually how likely it is that we would observe $\hat{p} = 0.55635$ if the true value of $p$ is $0.5$. More formally, we first assume that $p = 0.5$ (which we denote our null hypothesis $H_{0}$) and estimate the likelihood of having observed $\hat{p} = 0.55635$ given that $H_{0}$ is true. A 1% significance level means that our test is designed so that, on average, we will incorrectly reject the null hypothesis 1% of the time. The null and alternative hypotheses are as follows: $$H_{0}: p = 0.5 \qquad H_{A}: p \ne 0.5$$ We can assume that the distribution of $\hat{p}$ is approximately normal (since sample estimators for samples of sufficient size are normally distributed around the real value). For the distribution, we use mean 0.5 ($H_{0}$) and standard deviation 0.019. Formally, the distribution is as follows: $$ Since \quad n\hat{p}\hat{q} = 175.25 > 5, \qquad \hat{p} \sim N\left(0.5, \sqrt{\frac{0.5 \cdot 0.5}{701}}\right) = N(0.5, 0.019) $$
 
 #### Using the formula
+
+
 
 ```{r}
 #| echo: true
@@ -54,13 +66,19 @@ p_value <- 2 * (1 - pnorm(abs(z)))
 print(p_value)
 ```
 
+
+
 #### Using built-in functions
+
+
 
 ```{r}
 #| echo: true
 test_balcony = prop.test(n_balconies, n = n, p = 0.5, alternative = "two.sided", conf.level = 0.99)
 test_balcony$p.value
 ```
+
+
 
 
 #### Conclusion
@@ -72,6 +90,8 @@ Since the p-value is less than 0.01 in both cases, the observed proportion of ba
 ***Using a significance level of 5%, test the hypothesis that the expected size of the housing units in the region is 75m2.***
 
 #### Data and problem description
+
+
 
 ```{r}
 alpha   <- 0.05
@@ -89,6 +109,8 @@ data %>%
   theme_classic()
 ```
 
+
+
 The distribution of $x$ as shown by the histogram is right tailed and not normally distributed. However, because the sample size is greater than 30 we can approximate the distribution of $\bar{X}$ with a normal distribution using the central limit theorem.
 
 The observed mean of the area in our sample (that is to say, the estimate) is equal to $79.2 m^2$ As in the previous problem, we can determine whether it is likely that the actual value is $75 m^2$ by estimating the likelihood that we would observe $\bar{x} = 79.2 m^2$ if $\bar{X} = 75 m^2$.
@@ -97,6 +119,8 @@ Therefore, our null and alternative hypotheses are as follows: $$H_{0}: \mu = 0.
 
 #### Using the formula
 
+
+
 ```{r}
 #| echo: true
 t_obs2  <- (xbar - mu) / se_xbar # 54.47
@@ -104,13 +128,19 @@ p_value2 <- 2 * (1 - pt(q=t_obs2,df=n-1))
 print(p_value2)
 ```
 
+
+
 #### Using built-in functions
+
+
 
 ```{r}
 #| echo: true
 mean_test <- t.test(data$AREA, mu = mu, alternative = "two.sided", conf.level = 0.95)
 mean_test$p.value
 ```
+
+
 
 
 #### Conclusion
@@ -123,6 +153,8 @@ The p-value is either $0.0046$ or $0.0049$ depending on the method. Because the 
 
 #### Data and problem description
 
+
+
 ```{r}
 #| echo: true
 phat  <- sum(data$TYPE == "Apartment") / n
@@ -130,9 +162,13 @@ z     <- qnorm(0.95) # Two-sided, so 90% ci uses z = 0.95
 se    <- sqrt(phat*(1-phat)/n)
 ```
 
+
+
 Our sample's estimate for the proportion of apartments was $0.792$, but it is very unlikely that we have obtained exactly the same proportion of apartments in the sample as in the population. Therefore, we want to produce a confidence interval which we can be fairly sure includes the value in the population. More formally the 90% confidence interval for a proportion indicates that on average, the interval would contain the true value in 9 out of 10 samples. It can be expressed as follows: $$ \hat{p} \pm z_{0.05} \sqrt{\frac{\hat{p}(1 - \hat{p})}{n}} $$
 
 #### Using the formula
+
+
 
 ```{r}
 #| echo: true
@@ -142,13 +178,19 @@ print(conf_int[2])
 
 ```
 
+
+
 #### Using the built-in functions
+
+
 
 ```{r}
 #| echo: true
 ci <- prop.test(sum(data$TYPE == "Apartment"), n, conf.level = 0.9)
 ci$conf.int
 ```
+
+
 
 
 #### Conclusion
@@ -161,6 +203,8 @@ The 90% confidence interval for the proportion of housing units that are apartme
 
 #### Data and problem description
 
+
+
 ```{r}
 #| echo: true
 xbar <- mean(data$ROOMS)  # About 3.15
@@ -168,11 +212,15 @@ se   <- sd(data$ROOMS)    # About 1.59
 t975 <- qt(0.975, n-1)
 ```
 
+
+
 This problem is very similar to the previous one. In this case, we want to create an interval that, if we obtained an infinite number of samples, would contain the actual value for the population 95% of the time. Additionally, since the variance is unknown, the distribution of the expected number of rooms will follow a t-distribution. Formally, the 95% confidence interval is defined as:
 
 $$ \bar{x} \pm t_{0.025, n-1} \frac{s_x}{\sqrt{n}} $$
 
 #### Using the formulas
+
+
 
 ```{r}
 #| echo: true
@@ -180,13 +228,19 @@ conf_int <- c((xbar - t975 * se / sqrt(n)), xbar + t975 * se / sqrt(n))
 print(conf_int)
 ```
 
+
+
 #### Using the built-in functions
+
+
 
 ```{r}
 #| echo: true
 ci <- t.test(data$ROOMS, conf.level = 0.95)
 ci$conf.int
 ```
+
+
 
 #### Conclusion
 
@@ -202,6 +256,8 @@ Linear regressions enable us to make predictions for a variable given a differen
 
 We can do this rapidly by visualizing our data, efficiently checking the relationship between our variables as well as evaluating if any transformation may be necessary. We begin with the relationship between Rooms and Starting Price.
 
+
+
 ```{r}
 par(mfrow = c(2, 2))
 plot(STARTING_PRICE ~ ROOMS, data = data, main = "Without transformation")
@@ -210,9 +266,13 @@ plot(STARTING_PRICE ~ log(ROOMS), data = data, main = "Log of Rooms")
 plot(log(STARTING_PRICE) ~ log(ROOMS), data = data, main = "Log of Starting Price and Rooms")
 ```
 
+
+
 The first graph shows an approximately linear relationship between Rooms and Starting Price, and there is no clear improvement by transforming. As such, we considered it unnecessary to use any transformation. 
 
 We follow this by checking the linearity assumption between Starting Price and Area.
+
+
 
 ```{r}
 par(mfrow = c(2, 2))
@@ -226,6 +286,8 @@ data$STARTING_PRICE <- data$STARTING_PRICE / 1000000
 data[c("REGION", "TYPE", "BALCONY")] <- lapply(data[c("REGION", "TYPE", "BALCONY")], as.factor)
 ```
 
+
+
 While the plot without any transformations shows a fairly linear relationship between the starting price and area of housing units, it also displays more heteroskedasticity for larger housing units. Taking the log of both starting price and area renders a linear and homoskedastic plot, and could be a good option for further analysis and model creation.
 
 We did not repeat this procedure for Balcony, Type and Region as these variables are categorical and non-ordinal.
@@ -235,6 +297,8 @@ We did not repeat this procedure for Balcony, Type and Region as these variables
 We create two multiple regression models: one without any log transformations, and one using the log of the starting price and the area. We start by including all interactions between the covariates, and use stepwise backwards selection to remove abundant interactions and variables.
 
 Here is the model without transformations:
+
+
 
 ```{r}
 m1 <- lm(STARTING_PRICE ~ REGION + TYPE + BALCONY + ROOMS + AREA, data = data)
@@ -255,7 +319,11 @@ no_log_model <- step(m2, direction = "backward", trace = 0)
 #summary(no_log_model)
 ```
 
+
+
 And here is the model using the logs of Starting Price and Area:
+
+
 
 ```{r}
 m3 <- lm(log(STARTING_PRICE) ~ REGION + TYPE + BALCONY + ROOMS + log(AREA) + 
@@ -267,7 +335,6 @@ m3 <- lm(log(STARTING_PRICE) ~ REGION + TYPE + BALCONY + ROOMS + log(AREA) +
 log_model <- step(m3, direction = "backward", trace = 0)
 #summary(log_model)
 ```
-
 
 ```{r}
 #Graphs
@@ -346,6 +413,8 @@ plot_grid(obj1, obj2, obj3)
 ```
 
 
+
+
 #### Conclusion
 
 The adjusted R-squared is greater for the model using logs.
@@ -356,26 +425,40 @@ The adjusted R-squared is greater for the model using logs.
 
 #### Point and Interval prediction
 
+
+
 ```{r}
 pred1 <- predict(base_model,test,interval = "prediction", level = 0.90)
 pred2 <-predict(no_log_model,test,interval = "prediction", level = 0.90)
 pred3 <-exp(predict(log_model,test,interval = "prediction", level = 0.90))
 
 ```
+
+
 Prediction ($\hat{y}$) for every new value using model 3.
+
+
 ```{r}
 pred3[,1]
 ```
 
+
+
 Prediction Intervals with 90% confidence for each new value.
+
+
 ```{r}
 pred3[,2:3]
 ```
+
+
 
 #### Conclusion
 
 
 #### Extra
+
+
 
 ```{r}
 
@@ -408,5 +491,4 @@ zp1 <- zp1 + coord_flip() + theme_bw()
 zp1 <- zp1 + ggtitle("Comparing all models")+ylab("Predicted Starting price") +xlab("House predicted") 
 print(zp1)  
 ```
-
 

@@ -275,17 +275,6 @@ attr(,"conf.level")
 </div>
 </div>
 </section>
-<section id="comparing-both-methods" class="level4">
-<h4 class="anchored" data-anchor-id="comparing-both-methods">Comparing both methods</h4>
-<div class="cell">
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] "C.I. proportion of apartments with R: [0.765, 0.816]"</code></pre>
-</div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] "C.I. proportion of apartments by hand:[ 0.766, 0.817]"</code></pre>
-</div>
-</div>
-</section>
 <section id="conclusion-2" class="level4">
 <h4 class="anchored" data-anchor-id="conclusion-2">Conclusion</h4>
 <p>The 90% confidence interval for the proportion of housing units that are apartments is about 0.76 to 0.82. This means that if we repeated this process with different samples an infinite number of times, 90% of calculated intervals would contain the real value.</p>
@@ -297,9 +286,9 @@ attr(,"conf.level")
 <section id="data-and-problem-description-3" class="level4">
 <h4 class="anchored" data-anchor-id="data-and-problem-description-3">Data and problem description</h4>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>xbar <span class="ot">&lt;-</span> <span class="fu">mean</span>(data<span class="sc">$</span>ROOMS)  <span class="co"># About 3.15</span></span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>se   <span class="ot">&lt;-</span> <span class="fu">sd</span>(data<span class="sc">$</span>ROOMS)    <span class="co"># About 1.59</span></span>
-<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>t975 <span class="ot">&lt;-</span> <span class="fu">qt</span>(<span class="fl">0.975</span>, n<span class="dv">-1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>xbar <span class="ot">&lt;-</span> <span class="fu">mean</span>(data<span class="sc">$</span>ROOMS)  <span class="co"># About 3.15</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>se   <span class="ot">&lt;-</span> <span class="fu">sd</span>(data<span class="sc">$</span>ROOMS)    <span class="co"># About 1.59</span></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>t975 <span class="ot">&lt;-</span> <span class="fu">qt</span>(<span class="fl">0.975</span>, n<span class="dv">-1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>This problem is very similar to the previous one. In this case, we want to create an interval that, if we obtained an infinite number of samples, would contain the actual value for the population 95% of the time. Additionally, since the variance is unknown, the distribution of the expected number of rooms will follow a t-distribution. Formally, the 95% confidence interval is defined as:</p>
 <p><span class="math display">\[ \bar{x} \pm t_{0.025, n-1} \frac{s_x}{\sqrt{n}} \]</span></p>
@@ -307,8 +296,8 @@ attr(,"conf.level")
 <section id="using-the-formulas" class="level4">
 <h4 class="anchored" data-anchor-id="using-the-formulas">Using the formulas</h4>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>conf_int <span class="ot">&lt;-</span> <span class="fu">c</span>((xbar <span class="sc">-</span> t975 <span class="sc">*</span> se <span class="sc">/</span> <span class="fu">sqrt</span>(n)), xbar <span class="sc">+</span> t975 <span class="sc">*</span> se <span class="sc">/</span> <span class="fu">sqrt</span>(n))</span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(conf_int)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>conf_int <span class="ot">&lt;-</span> <span class="fu">c</span>((xbar <span class="sc">-</span> t975 <span class="sc">*</span> se <span class="sc">/</span> <span class="fu">sqrt</span>(n)), xbar <span class="sc">+</span> t975 <span class="sc">*</span> se <span class="sc">/</span> <span class="fu">sqrt</span>(n))</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(conf_int)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 3.033163 3.269262</code></pre>
 </div>
@@ -317,8 +306,8 @@ attr(,"conf.level")
 <section id="using-the-built-in-functions-1" class="level4">
 <h4 class="anchored" data-anchor-id="using-the-built-in-functions-1">Using the built-in functions</h4>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>ci <span class="ot">&lt;-</span> <span class="fu">t.test</span>(data<span class="sc">$</span>ROOMS, <span class="at">conf.level =</span> <span class="fl">0.95</span>)</span>
-<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>ci<span class="sc">$</span>conf.int</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>ci <span class="ot">&lt;-</span> <span class="fu">t.test</span>(data<span class="sc">$</span>ROOMS, <span class="at">conf.level =</span> <span class="fl">0.95</span>)</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>ci<span class="sc">$</span>conf.int</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 3.033163 3.269262
 attr(,"conf.level")
@@ -342,7 +331,7 @@ attr(,"conf.level")
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="SDA-Assignment-2_files/figure-html/unnamed-chunk-15-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="SDA-Assignment-2_files/figure-html/unnamed-chunk-14-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
@@ -353,7 +342,7 @@ attr(,"conf.level")
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="SDA-Assignment-2_files/figure-html/unnamed-chunk-16-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="SDA-Assignment-2_files/figure-html/unnamed-chunk-15-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
@@ -373,7 +362,7 @@ attr(,"conf.level")
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="SDA-Assignment-2_files/figure-html/unnamed-chunk-20-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="SDA-Assignment-2_files/figure-html/unnamed-chunk-19-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
@@ -383,7 +372,7 @@ attr(,"conf.level")
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="SDA-Assignment-2_files/figure-html/unnamed-chunk-20-2.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="SDA-Assignment-2_files/figure-html/unnamed-chunk-19-2.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
@@ -393,7 +382,7 @@ attr(,"conf.level")
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="SDA-Assignment-2_files/figure-html/unnamed-chunk-20-3.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="SDA-Assignment-2_files/figure-html/unnamed-chunk-19-3.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
@@ -407,23 +396,42 @@ attr(,"conf.level")
 <section id="task-6" class="level1">
 <h1>Task 6</h1>
 <p><strong><em>Use your regression model from exercise 5 to predict the starting price of these housing units</em></strong></p>
-<section id="point-prediction" class="level4">
-<h4 class="anchored" data-anchor-id="point-prediction">Point prediction</h4>
+<section id="point-and-interval-prediction" class="level4">
+<h4 class="anchored" data-anchor-id="point-and-interval-prediction">Point and Interval prediction</h4>
+<p>Prediction (<span class="math inline">\(\hat{y}\)</span>) for every new value using model 3.</p>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>       1        2        3        4        5        6 
+3.746398 4.085731 7.365428 3.458953 2.360226 2.175157 </code></pre>
+</div>
+</div>
+<p>Prediction Intervals with 90% confidence for each new value.</p>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>       lwr       upr
+1 2.085401  6.730356
+2 2.268720  7.357979
+3 4.059325 13.364176
+4 1.931204  6.195283
+5 1.315790  4.233704
+6 1.209462  3.911910</code></pre>
+</div>
+</div>
+</section>
+<section id="conclusion-5" class="level4">
+<h4 class="anchored" data-anchor-id="conclusion-5">Conclusion</h4>
+</section>
+<section id="extra" class="level4">
+<h4 class="anchored" data-anchor-id="extra">Extra</h4>
 <div class="cell">
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="SDA-Assignment-2_files/figure-html/unnamed-chunk-21-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="SDA-Assignment-2_files/figure-html/unnamed-chunk-23-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
 </div>
-</section>
-<section id="interval-prediction" class="level4">
-<h4 class="anchored" data-anchor-id="interval-prediction">Interval prediction</h4>
-</section>
-<section id="conclusion-5" class="level4">
-<h4 class="anchored" data-anchor-id="conclusion-5">Conclusion</h4>
 </section>
 </section>
 
