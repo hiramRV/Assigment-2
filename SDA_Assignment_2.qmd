@@ -147,7 +147,7 @@ print(conf_int[2])
 ```{r}
 #| echo: true
 ci <- prop.test(sum(data$TYPE == "Apartment"), n, conf.level = 0.9)
-ci$conf.int
+ci$conf.int[1:2]
 ```
 
 
@@ -185,7 +185,7 @@ print(conf_int)
 ```{r}
 #| echo: true
 ci <- t.test(data$ROOMS, conf.level = 0.95)
-ci$conf.int
+ci$conf.int[1:2]
 ```
 
 #### Conclusion
