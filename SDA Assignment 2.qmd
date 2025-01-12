@@ -182,7 +182,7 @@ se   <- sd(data$ROOMS)    # About 1.59
 t975 <- qt(0.975, n-1)
 ```
 
-Since the variance is unknown, the distribution of the expected number of rooms follow a t-distribution. The 95% confidence interval is defined as:
+This problem is very similar to the previous one. In this case, we want to create an interval that, if we obtained an infinite number of samples, would contain the actual value for the population 95% of the time. Additionally, since the variance is unknown, the distribution of the expected number of rooms will follow a t-distribution. Formally, the 95% confidence interval is defined as:
 
 $$ \bar{x} \pm t_{0.025, n-1} \frac{s_x}{\sqrt{n}} $$
 
@@ -202,7 +202,7 @@ ci$conf.int
 
 #### Conclusion
 
-The confidence interval for the mean (expected) number of rooms in the region is \[3.033163, 3.269262\].
+The confidence interval for the mean (expected) number of rooms in the region is \[3.033163, 3.269262\]. This means we can be fairly confident that the actual average number of rooms for housing regions is slightly above 3. It is important to note that even though a given unit of housing must have a discrete number of rooms, the expected number of rooms is not discrete.
 
 # Task 5
 
