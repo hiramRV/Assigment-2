@@ -348,9 +348,11 @@ plot_grid(obj1, obj2, obj3)
 
 #### Conclusion and selected multiple regression model
 
-(Pablo writes about why we select the third model (Adj R-squared, OLS assumptions of residuals))
+We decided to select the third model for two key reasons. First and most importantly, as can be seen in the residual analysis, the first and second models do not comply with the model's assumptions. While in all three cases the distribution of the residuals is approximately normal, in the first two it is clear that there is a non-linear relationship between the theoretical and observed quantiles (and as such the error terms are likely not independent). Additionally, it is abundantly clear that the error terms do not have a constant standard deviation (the models are heteroskedastic).
 
-The best model is written out below. The reference group is apartments in region Northeast without a balcony. This model includes all variables that are significant on a 10% level, and interactions are marked by a colon symbol.
+The second and less important reason is that the third model explains more of the variance in our explained variable than the others (higher R squared). This improvement is not enormous (of about 0.06) and comes at the cost of a far more complex model which makes interpretation of our results considerably more difficult. However, we considered it worthwhile to make a model with slightly more predictive capabilities and, more importantly, to make a model that fits our model assumptions.
+
+The best model is written out below as an equation. The reference group is apartments in region Northeast without a balcony. This model includes all variables that are significant on a 10% level, and interactions are marked by a colon symbol.
 $$
 \begin{align}
   \text{log}(\mathit{Starting\ Price}) &= -1.938 \\
