@@ -147,7 +147,7 @@ print(conf_int[2])
 ```{r}
 #| echo: true
 ci <- prop.test(sum(data$TYPE == "Apartment"), n, conf.level = 0.9)
-ci$conf.int
+ci$conf.int[1:2]
 ```
 
 
@@ -185,7 +185,7 @@ print(conf_int)
 ```{r}
 #| echo: true
 ci <- t.test(data$ROOMS, conf.level = 0.95)
-ci$conf.int
+ci$conf.int[1:2]
 ```
 
 #### Conclusion
@@ -232,9 +232,8 @@ We did not repeat this procedure for Balcony, Type and Region as these variables
 
 #### Fit multiple regression model
 
-We create two multiple regression models: one without any log transformations, and one using the log of the starting price and the area. We start by including all interactions between the covariates, and use stepwise backwards selection to remove abundant interactions and variables.
+We create three multiple regression models: one with all the variables, one without any log transformations, and one using the log of the starting price and the area. We start by including all interactions between the covariates, and use stepwise backwards selection to remove abundant interactions and variables. Then we visualize the residuals, Q-Q graph and density plot of each one: 
 
-Here is the model without transformations:
 
 ```{r}
 m1 <- lm(STARTING_PRICE ~ REGION + TYPE + BALCONY + ROOMS + AREA, data = data)
@@ -255,7 +254,7 @@ no_log_model <- step(m2, direction = "backward", trace = 0)
 #summary(no_log_model)
 ```
 
-And here is the model using the logs of Starting Price and Area:
+
 
 ```{r}
 m3 <- lm(log(STARTING_PRICE) ~ REGION + TYPE + BALCONY + ROOMS + log(AREA) + 
