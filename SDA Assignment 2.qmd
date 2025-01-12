@@ -232,7 +232,7 @@ We did not repeat this procedure for Balcony, Type and Region as these variables
 
 #### Fit multiple regression model
 
-We create two multiple regression models: one without any log transformations, and one using the log of the starting price and the area. We start by including all interactions between the covariates, and use stepwise backwards selection to remove abundant interactions and variables.
+We create three multiple regression models: a "baseline" model without any transformations or interactions, one with interactions but without transformations, and one using the log of the starting price and the area and incorporating the interactions among variables. We start by including all interactions between the covariates, and use stepwise backwards selection to remove abundant interactions and variables.
 
 Here is the model without transformations:
 
