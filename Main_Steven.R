@@ -16,7 +16,7 @@ library(scales)
 library(olsrr)
 library(Hmisc)
 data <-read.xlsx("dataset01.xlsx")
-test <- read_excel("test.xlsx")
+test <- read.xlsx("test.xlsx")
 
 ### Pre-processing ----
 str(data)
@@ -165,6 +165,8 @@ pred1 <- predict(model2,test,interval = "prediction", level = 0.90)
 pred2 <-predict(model3,test,interval = "prediction", level = 0.90)
 pred3 <-exp(predict(log_model,test,interval = "prediction", level = 0.90))
 
+
+plot(fitted(pred1), resid(pred1))
 
 ###Random Code
 model1Frame <- data.frame(Variable = rownames(pred1),

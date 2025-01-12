@@ -281,6 +281,17 @@ log_model <- step(m3, direction = "backward", trace = 0)
 
 summary(log_model)
 ```
+```{r}
+#Graphs
+plot(fitted(base_model), resid(base_model))
+abline(0,0)
+
+plot(fitted(no_log_model), resid(no_log_model))
+abline(0,0)
+
+plot(fitted(log_model), resid(log_model))
+abline(0,0)
+```
 
 
 #### Conclusion
