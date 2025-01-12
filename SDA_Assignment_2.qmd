@@ -393,8 +393,11 @@ pred3[,2:3]
 
 #### Conclusion
 
-Using the more complicated of the three models, we were able to predict 
+Using the more complicated of the three models, we were able to predict the value for unseen observations. Admittedly, the confidence intervals for our predictions can be fairly large (with the biggest interval only slightly smaller than 10,000,000 sek). This is an unfortunate side-effect of the complexity of our selected model, though it accurately reflects the relative complexity and uncertainty when it comes to establishing the market value of real estate (and using only five variables!). As such, we are satisfied with these results. 
+
 #### Extra
+
+We also include a brief analysis of how all three models might compare when it comes to predictions. As can be seen, only the selected model produces intervals which are exclusively in the positive range. This is heartening and reaffirms our selection of the model as, of course, property cannot really have a negative value. 
 
 ```{r}
 
